@@ -168,6 +168,10 @@
     <Compile Include="Migrations\201510281842434_CreateDatabase.Designer.cs">
       <DependentUpon>201510281842434_CreateDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510282125527_AddNameToUsers.cs" />
+    <Compile Include="Migrations\201510282125527_AddNameToUsers.Designer.cs">
+      <DependentUpon>201510282125527_AddNameToUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -244,6 +248,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510281842434_CreateDatabase.resx">
       <DependentUpon>201510281842434_CreateDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510282125527_AddNameToUsers.resx">
+      <DependentUpon>201510282125527_AddNameToUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
