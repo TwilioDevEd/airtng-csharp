@@ -1,24 +1,80 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿@import url(http://fonts.googleapis.com/css?family=Raleway:400,600,300);
+
+html {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+body {
+    font-family: 'Raleway', sans-serif;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+*, *:before, *:after {
+    -webkit-box-sizing:inherit;
+    -moz-box-sizing:inherit;
+    box-sizing:inherit;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+a:visited {
+    color:black;
+}
+
+footer {
+    font-size:12px;
+    color:#787878;
+    margin-top:20px;
+    padding-top:20px;
+    text-align:center;
+}
+
+footer i {
+    color:#ff0000;
+}
+
+nav a:focus {
+    text-decoration:none;
+    color:#337ab7;
+}
+
+td {
+    padding:10px;
+}
+
+#main {
+    margin-top:10px;
+}
+
+#messages p {
+    padding:10px;
+    border:1px solid #eee;
+}
+
+#messages i {
+    float:right;
+    margin-left:5px;
+    cursor:pointer;
+}
+
+#countries-input-0 {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #CCC;
+    -ms-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    -ms-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    -webkit-transition: border-color 0.15s ease-in-out 0, box-shadow 0.15s ease-in-out 0;
+    -moz-transition: border-color 0.15s ease-in-out 0, box-shadow 0.15s ease-in-out 0;
+    -ms-transition: border-color 0.15s ease-in-out 0, box-shadow 0.15s ease-in-out 0;
+    -o-transition: border-color 0.15s ease-in-out 0, box-shadow 0.15s ease-in-out 0;
+    transition: border-color 0.15s ease-in-out 0, box-shadow 0.15s ease-in-out 0;
 }

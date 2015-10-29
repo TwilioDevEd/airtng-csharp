@@ -7,6 +7,8 @@ namespace AirTNG.Web
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.UseCdn = true;
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -22,8 +24,16 @@ namespace AirTNG.Web
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new StyleBundle("~/Content/bootstrap", "http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css")
+                .Include("~/Content/bootstrap.css"));
+
+            bundles.Add(new StyleBundle("~/Content/font-awesome", "http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
+                .Include("~/Content/bootstrap.css"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/main.css",
+                      "~/Content/scaffolds.css",
+                      "~/Content/vacation_properties.css",
                       "~/Content/site.css"));
         }
     }

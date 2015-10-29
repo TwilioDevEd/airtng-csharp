@@ -3,42 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Airtng - The Next Generation of Vacation rentals</title>
+    @Styles.Render("~/Content/bootstrap")
+    @Styles.Render("~/Content/font-awesome")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <link rel="stylesheet" media="all" href="http://cdnjs.cloudflare.com/ajax/libs/authy-forms.css/2.2/form.authy.min.css" />
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
+<body class="@ViewBag.CssBody">
+    @RenderSection("nav_bg", false)
+    <nav class="navbar navbar-transparent">
+        <a class="navbar-brand" href="/">airtng</a>
+        <ul class="navbar-nav navbar-right pull-right">
+            @Html.Partial("_LoginPartial")
+        </ul>
+    </nav>
+    @RenderSection("hero", false)
+    <section id="main" class="push-nav">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </section>
+    <footer>
+        Made with <i class="fa fa-heart"></i> by your pals
+        <a href="http://www.twilio.com">@@twilio</a>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", false)
 </body>
 </html>
