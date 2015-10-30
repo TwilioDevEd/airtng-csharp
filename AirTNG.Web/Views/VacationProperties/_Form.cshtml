@@ -1,0 +1,19 @@
+﻿@model AirTNG.Web.ViewModels.VacationPropertyViewModel
+
+@using (Html.BeginForm("Create", "VacationProperties"))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(x => x.Description)
+        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.Description, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.ImageUrl)
+        @Html.TextBoxFor(x => x.ImageUrl, new { @class = "form-control" })
+        @Html.ValidationMessageFor(x => x.ImageUrl, "", new { @class = "text-danger" })
+    </div>
+    <div class="actions">
+        <input type="submit" value="Create Property" class="btn btn-lg btn-primary" />
+    </div>
+}

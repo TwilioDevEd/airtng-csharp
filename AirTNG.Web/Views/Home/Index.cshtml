@@ -8,6 +8,6 @@
     <h1>Lodging fit for a captain</h1>
     <p>The Next Generation of vacation rentals.</p>
 
-    <a class="btn btn-transparent btn-lg" href="/properties/"> View Properties </a>
+    @Html.ActionLink("View Properties", "Index", "VacationProperties", null, new { @class = "btn btn-transparent btn-lg" })
 </div>
 }

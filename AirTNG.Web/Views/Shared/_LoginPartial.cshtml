@@ -5,7 +5,7 @@
         @Html.AntiForgeryToken()
     }
     <li><img src="~/Content/Images/spock.png" alt="Spock" /></li>
-    <li><a href="#">New Vacation property</a></li>
+    <li>@Html.ActionLink("New Vacation property", "Create", "VacationProperties")</li>
     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
 }
 else

@@ -1,0 +1,9 @@
+﻿@model AirTNG.Web.ViewModels.VacationPropertyViewModel
+
+<div class="container">
+    <h1>New Vacation Property</h1>
+
+    @Html.Partial("_Form", Model)
+
+    @Html.ActionLink("Back", "Index", "VacationProperties")
+</div>

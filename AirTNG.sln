@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirTNG.Web", "AirTNG.Web\AirTNG.Web.csproj", "{98EE4018-F658-4FE8-AAFE-26CABF42B885}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirTNG.Web.Test", "AirTNG.Web.Test\AirTNG.Web.Test.csproj", "{8453894B-2881-4AF5-BF47-E672AACEC871}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{98EE4018-F658-4FE8-AAFE-26CABF42B885}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98EE4018-F658-4FE8-AAFE-26CABF42B885}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98EE4018-F658-4FE8-AAFE-26CABF42B885}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8453894B-2881-4AF5-BF47-E672AACEC871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8453894B-2881-4AF5-BF47-E672AACEC871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8453894B-2881-4AF5-BF47-E672AACEC871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8453894B-2881-4AF5-BF47-E672AACEC871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
