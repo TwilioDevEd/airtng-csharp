@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -9,6 +11,8 @@ namespace AirTNG.Web.Models
     public class ApplicationUser : IdentityUser
     {
         public string Name { get; set; }
+
+        public virtual IList<VacationProperty> VacationProperties { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -22,7 +26,7 @@ namespace AirTNG.Web.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("AirTNGConnection", throwIfV1Schema: false)
+            : base("AirTNGConnection", false)
         {
         }
 
@@ -30,5 +34,8 @@ namespace AirTNG.Web.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<VacationProperty> VacationProperties { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
     }
 }

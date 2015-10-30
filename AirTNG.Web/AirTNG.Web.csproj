@@ -187,10 +187,23 @@
     <Compile Include="Migrations\201510282125527_AddNameToUsers.Designer.cs">
       <DependentUpon>201510282125527_AddNameToUsers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201510301945368_CreateReservations.cs" />
+    <Compile Include="Migrations\201510301945368_CreateReservations.Designer.cs">
+      <DependentUpon>201510301945368_CreateReservations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510301956088_CreateVacationProperties.cs" />
+    <Compile Include="Migrations\201510301956088_CreateVacationProperties.Designer.cs">
+      <DependentUpon>201510301956088_CreateVacationProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Reservation.cs" />
+    <Compile Include="Models\ReservationStatus.cs" />
+    <Compile Include="Models\VacationProperty.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -288,6 +301,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201510282125527_AddNameToUsers.resx">
       <DependentUpon>201510282125527_AddNameToUsers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510301945368_CreateReservations.resx">
+      <DependentUpon>201510301945368_CreateReservations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510301956088_CreateVacationProperties.resx">
+      <DependentUpon>201510301956088_CreateVacationProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
