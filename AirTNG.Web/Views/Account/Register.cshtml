@@ -1,47 +1,50 @@
 ﻿@model AirTNG.Web.Models.RegisterViewModel
-
-<h2>Sign up for Airtng</h2>
-
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Zingelbert Bembledack" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "me@mydomain.com" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.CountryCode, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CountryCode, new { @class = "form-control", id = "authy-countries" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Sign up" />
-        </div>
-    </div>
+@{
+    ViewBag.Title = "User Auth | Login";
 }
+
+@section nav_bg
+{
+    <!-- Nav Bar -->
+    <nav class="navbar navbar-space">
+    </nav>
+}
+
+<div class="container">
+    <div class="login-form form">
+        <h1>Sign up for Airtng</h1>
+            @using (Html.BeginForm("Register", "Account", new {ViewBag.ReturnUrl}, FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Zingelbert Bembledack" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "me@mydomain.com" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CountryCode)
+                    @Html.TextBoxFor(m => m.CountryCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.CountryCode, "", new { @class = "text-danger"})
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PhoneNumber)
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger"})
+                </div>
+                <input type="submit" value="Sign up" class="btn btn-primary" />
+            }
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

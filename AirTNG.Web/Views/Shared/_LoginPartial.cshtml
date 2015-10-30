@@ -1,26 +1,15 @@
-﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+﻿@if (Request.IsAuthenticated)
 {
-    @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @style = "display:none;" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @style = "display:none;" }))
     {
         @Html.AntiForgeryToken()
-    }*@
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <img src="~/Content/Images/spock.png" alt="Spock"/>
-        </li>
-        <li>
-            <a href="#">New Vacation property</a>
-        </li>
-        <li>
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        </li>
-    </ul>
+    }
+    <li><img src="~/Content/Images/spock.png" alt="Spock" /></li>
+    <li><a href="#">New Vacation property</a></li>
+    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log Out</a></li>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Sign Up", "Register", "Account", null, new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log In", "Login", "Account", null, new { id = "loginLink" })</li>
-    </ul>
+    <li>@Html.ActionLink("Sign Up", "Register", "Account", null, new { id = "registerLink" })</li>
+    <li>@Html.ActionLink("Log In", "Login", "Account", null, new { id = "loginLink" })</li>
 }

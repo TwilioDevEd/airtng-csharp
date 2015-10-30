@@ -28,7 +28,7 @@ namespace AirTNG.Web
                 .Include("~/Content/bootstrap.css"));
 
             bundles.Add(new StyleBundle("~/Content/font-awesome", "http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
-                .Include("~/Content/bootstrap.css"));
+                .Include("~/Content/font-awesome.css"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/main.css",

@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Airtng - The Next Generation of Vacation rentals</title>
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/font-awesome")
@@ -18,10 +17,13 @@
             @Html.Partial("_LoginPartial")
         </ul>
     </nav>
+
     @RenderSection("hero", false)
+
     <section id="main" class="push-nav">
         @RenderBody()
     </section>
+
     <footer>
         Made with <i class="fa fa-heart"></i> by your pals
         <a href="http://www.twilio.com">@@twilio</a>
