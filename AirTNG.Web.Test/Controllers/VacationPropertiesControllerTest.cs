@@ -110,5 +110,18 @@ namespace AirTNG.Web.Test.Controllers
             controller.WithCallTo(c => c.Edit(model))
                 .ShouldRenderDefaultView();
         }
+
+        [Test]
+        public void GivenADetailsAction_ThenRendersTheDefaultView()
+        {
+            var vacationProperty = new VacationProperty();
+            var mockRepository = new Mock<IVacationPropertiesRepository>();
+            mockRepository.Setup(r => r.FindAsync(It.IsAny<int>())).ReturnsAsync(vacationProperty);
+
+            var controller = new VacationPropertiesController(mockRepository.Object);
+            controller.WithCallTo(c => c.Details(1))
+                .ShouldRenderDefaultView()
+                .WithModel(vacationProperty);
+        }
     }
 }

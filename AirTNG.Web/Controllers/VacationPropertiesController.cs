@@ -30,6 +30,13 @@ namespace AirTNG.Web.Controllers
             return View(vacationProperties);
         }
 
+        // GET: VacationProperties/Details/1
+        public async Task<ActionResult> Details(int id)
+        {
+            var vacationProperty = await _repository.FindAsync(id);
+            return View(vacationProperty);
+        }
+
         // GET: VacationProperties/Create
         public ActionResult Create()
         {

@@ -13,8 +13,7 @@
         @foreach (var vacationProperty in Model)
         {
             <div class="col-md-4">
-                <a href="#" class="property">
-
+                <a href="@Url.Action("Details", new { id = vacationProperty.Id })" class="property">
                     <img src="@vacationProperty.ImageUrl" alt="Vacation Property" />
                     <h2>@vacationProperty.Description</h2>
                 </a>

@@ -295,6 +295,7 @@
     <Content Include="Views\VacationProperties\_Form.cshtml" />
     <Content Include="Views\VacationProperties\Create.cshtml" />
     <Content Include="Views\VacationProperties\Edit.cshtml" />
+    <Content Include="Views\VacationProperties\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
