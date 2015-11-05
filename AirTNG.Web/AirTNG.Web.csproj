@@ -190,6 +190,9 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReservationsController.cs" />
     <Compile Include="Controllers\VacationPropertiesController.cs" />
+    <Compile Include="Domain\Reservations\Notification.cs" />
+    <Compile Include="Domain\Reservations\Notifier.cs" />
+    <Compile Include="Domain\Twilio\Configuration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

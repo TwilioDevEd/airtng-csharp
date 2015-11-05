@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using AirTNG.Web.ViewModels;
@@ -11,16 +12,21 @@ namespace AirTNG.Web.Controllers
     {
         private readonly IVacationPropertiesRepository _vacationPropertiesRepository;
         private readonly IReservationsRepository _reservationsRepository;
+        private readonly INotifier _notifier;
 
         public ReservationsController() : this(
-            new VacationPropertiesRepository(), new ReservationsRepository()) { }
+            new VacationPropertiesRepository(),
+            new ReservationsRepository(),
+            new Notifier()) { }
 
         public ReservationsController(
             IVacationPropertiesRepository vacationPropertiesRepository,
-            IReservationsRepository reservationsRepository)
+            IReservationsRepository reservationsRepository,
+            INotifier notifier)
         {
             _vacationPropertiesRepository = vacationPropertiesRepository;
             _reservationsRepository = reservationsRepository;
+            _notifier = notifier;
         }
 
         // GET: Reservations/Create
@@ -57,6 +63,7 @@ namespace AirTNG.Web.Controllers
                 };
 
                 await _reservationsRepository.CreateAsync(reservation);
+                _notifier.SendNotification(reservation);
 
                 return RedirectToAction("Index", "VacationProperties");
             }
