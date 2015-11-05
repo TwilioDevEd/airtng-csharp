@@ -1,4 +1,4 @@
-﻿@model AirTNG.Web.Models.VacationProperty
+﻿@model AirTNG.Web.ViewModels.ReservationViewModel
 
 @{ ViewBag.CssBody = "property-page"; }
 
@@ -14,25 +14,26 @@
                 <h3 class="panel-title">Make a Reservation</h3>
             </div>
             <div class="panel-body">
-                @using (Html.BeginForm())
+                @using (Html.BeginForm("Create", "Reservations"))
                 {
                     <div class="form-group">
-                        @Html.Label("Would you like to say anything to the host?")
-                        @Html.TextArea("message", new
-                                {
-                                    @class = "form-control",
-                                    size = "10x10",
-                                    placeholder = "Hello! I am hoping to stay in your intergalactic suite..."
-                                })
+                        @Html.LabelFor(x => x.Message)
+                        @Html.TextAreaFor(x => x.Message, new
+                        {
+                            @class = "form-control",
+                            size = "10x10",
+                            placeholder = "Hello! I am hoping to stay in your intergalactic suite..."
+                        })
+                        @Html.ValidationMessageFor(x => x.Message, "", new { @class = "text-danger" })
                     </div>
                     <div class="hidden">
-                        @Html.TextBoxFor(x => x.User.Name)
+                        @Html.TextBoxFor(x => x.UserName)
                     </div>
                     <div class="hidden">
-                        @Html.TextBoxFor(x => x.User.PhoneNumber)
+                        @Html.TextBoxFor(x => x.UserPhoneNumber)
                     </div>
                     <div class="hidden">
-                        @Html.TextBoxFor(x => x.Id)
+                        @Html.TextBoxFor(x => x.VacationPropertyId)
                     </div>
                     <button class="btn btn-primary">Reserve Now</button>
                 }

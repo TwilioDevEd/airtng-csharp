@@ -88,7 +88,7 @@ namespace AirTNG.Web.Test.Controllers
 
             var mockRepository = new Mock<IVacationPropertiesRepository>();
             mockRepository.Setup(r => r.FindAsync(It.IsAny<int>())).ReturnsAsync(vacationProperty);
-            mockRepository.Setup(r => r.UpdateAsync(vacationProperty)).ReturnsAsync(1);
+            mockRepository.Setup(r => r.UpdateAsync(It.IsAny<VacationProperty>())).ReturnsAsync(1);
 
             var controller = new VacationPropertiesController(mockRepository.Object);
 
@@ -109,19 +109,6 @@ namespace AirTNG.Web.Test.Controllers
 
             controller.WithCallTo(c => c.Edit(model))
                 .ShouldRenderDefaultView();
-        }
-
-        [Test]
-        public void GivenADetailsAction_ThenRendersTheDefaultView()
-        {
-            var vacationProperty = new VacationProperty();
-            var mockRepository = new Mock<IVacationPropertiesRepository>();
-            mockRepository.Setup(r => r.FindAsync(It.IsAny<int>())).ReturnsAsync(vacationProperty);
-
-            var controller = new VacationPropertiesController(mockRepository.Object);
-            controller.WithCallTo(c => c.Details(1))
-                .ShouldRenderDefaultView()
-                .WithModel(vacationProperty);
         }
     }
 }
