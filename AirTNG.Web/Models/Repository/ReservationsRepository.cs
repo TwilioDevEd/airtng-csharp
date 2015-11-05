@@ -8,7 +8,9 @@ namespace AirTNG.Web.Models.Repository
     public interface IReservationsRepository
     {
         Task<IEnumerable<Reservation>> FindPendingReservationsAsync();
+        Task<Reservation> FindFirstPendingReservationByHostAsync(string userId);
         Task<int> CreateAsync(Reservation reservation);
+        Task<int> UpdateAsync(Reservation reservation);
     }
 
     public class ReservationsRepository : IReservationsRepository
@@ -30,6 +32,18 @@ namespace AirTNG.Web.Models.Repository
         {
             _context.Reservations.Add(reservation);
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateAsync(Reservation reservation)
+        {
+            _context.Entry(reservation).State = EntityState.Modified;
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Reservation> FindFirstPendingReservationByHostAsync(string userId)
+        {
+            return await _context.Reservations.FirstAsync(
+                r => r.VacationProperty.UserId == userId && r.Status == ReservationStatus.Pending);
         }
     }
 }

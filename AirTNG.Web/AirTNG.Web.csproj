@@ -217,6 +217,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Repository\ReservationsRepository.cs" />
+    <Compile Include="Models\Repository\UsersRepository.cs" />
     <Compile Include="Models\Repository\VacationPropertiesRepository.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\ReservationStatus.cs" />

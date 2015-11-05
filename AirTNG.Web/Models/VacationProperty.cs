@@ -11,6 +11,6 @@ namespace AirTNG.Web.Models
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
-        public IList<Reservation> Reservations { get; set; }
+        public virtual IList<Reservation> Reservations { get; set; }
     }
 }

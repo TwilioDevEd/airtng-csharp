@@ -43,6 +43,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
@@ -82,11 +83,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
     <Reference Include="TestStack.FluentMVCTesting">
       <HintPath>..\packages\TestStack.FluentMVCTesting.3.0.0\lib\NET45\TestStack.FluentMVCTesting.dll</HintPath>
     </Reference>
     <Reference Include="Twilio.Api">
       <HintPath>..\packages\Twilio.4.2.1\lib\3.5\Twilio.Api.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Mvc">
+      <HintPath>..\packages\Twilio.Mvc.3.1.15\lib\3.5\Twilio.Mvc.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
@@ -102,6 +107,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Controllers\ReservationsControllerTest.cs" />
     <Compile Include="Controllers\VacationPropertiesControllerTest.cs" />
     <Compile Include="Domain\Reservations\NotifierTest.cs" />
