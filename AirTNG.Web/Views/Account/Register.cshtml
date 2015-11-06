@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.CountryCode)
-                    @Html.TextBoxFor(m => m.CountryCode, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.CountryCode, new { @class = "form-control", id="authy-countries" })
                     @Html.ValidationMessageFor(m => m.CountryCode, "", new { @class = "text-danger"})
                 </div>
                 <div class="form-group">
