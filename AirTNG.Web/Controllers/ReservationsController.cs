@@ -44,6 +44,7 @@ namespace AirTNG.Web.Controllers
                 ImageUrl = vacationProperty.ImageUrl,
                 Description = vacationProperty.Description,
                 VacationPropertyId = vacationProperty.Id,
+                VacationPropertyDescription = vacationProperty.Description,
                 UserName = vacationProperty.User.Name,
                 UserPhoneNumber = vacationProperty.User.PhoneNumber,
             };
@@ -68,7 +69,8 @@ namespace AirTNG.Web.Controllers
                 };
 
                 await _reservationsRepository.CreateAsync(reservation);
-                _notifier.SendNotification(reservation);
+                reservation.VacationProperty = new VacationProperty {Description = model.VacationPropertyDescription};
+                await _notifier.SendNotificationAsync(reservation);
 
                 return RedirectToAction("Index", "VacationProperties");
             }
@@ -88,7 +90,9 @@ namespace AirTNG.Web.Controllers
                 var reservation = await _reservationsRepository.FindFirstPendingReservationByHostAsync(host.Id);
 
                 var smsRequest = body;
-                reservation.Status = smsRequest.Contains("accept") || smsRequest.Contains("yes")
+                reservation.Status =
+                    smsRequest.Equals("accept", StringComparison.InvariantCultureIgnoreCase) ||
+                    smsRequest.Equals("yes", StringComparison.InvariantCultureIgnoreCase)
                     ? ReservationStatus.Confirmed
                     : ReservationStatus.Rejected;
 

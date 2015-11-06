@@ -5,6 +5,7 @@ namespace AirTNG.Web.ViewModels
     public class ReservationViewModel
     {
         public int VacationPropertyId { get; set; }
+        public string VacationPropertyDescription { get; set; }
         public string ImageUrl { get; set; }
         public string Description { get; set; }
         [Required]

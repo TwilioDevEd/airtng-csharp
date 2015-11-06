@@ -11,7 +11,7 @@ namespace AirTNG.Web.Test.Domain.Reservations
     public class NotifierTest
     {
         [Test]
-        public void WhenThereAreMoreThanOneReservation_ThenAnyMessageIsSent()
+        public async void WhenThereAreMoreThanOneReservation_ThenAnyMessageIsSent()
         {
             var mockClient = new Mock<TwilioRestClient>(null, null);
             mockClient
@@ -29,14 +29,14 @@ namespace AirTNG.Web.Test.Domain.Reservations
             var notifier = new Notifier(
                 mockClient.Object, mockRepository.Object);
 
-            notifier.SendNotification(new Reservation());
+            await notifier.SendNotificationAsync(new Reservation());
 
             mockClient.Verify(c => c.SendMessage(
                 It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [Test]
-        public void WhenThereAreLessThanOneReservation_ThenAMessageIsSent()
+        public async void WhenThereAreLessThanOneReservation_ThenAMessageIsSent()
         {
             var mockClient = new Mock<TwilioRestClient>(null, null);
             mockClient
@@ -51,7 +51,7 @@ namespace AirTNG.Web.Test.Domain.Reservations
                 mockClient.Object, mockRepository.Object);
 
             const string hostPhoneNumber = "host-phone-number";
-            notifier.SendNotification(new Reservation
+            await notifier.SendNotificationAsync(new Reservation
             {
                 VacationProperty = new VacationProperty(),
                 PhoneNumber = hostPhoneNumber

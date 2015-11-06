@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using AirTNG.Web.Domain.Twilio;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -10,7 +11,7 @@ namespace AirTNG.Web.Domain.Reservations
 {
     public interface INotifier
     {
-        void SendNotification(Reservation reservation);
+        Task<Message> SendNotificationAsync(Reservation reservation);
     }
 
     public class Notifier : INotifier
@@ -28,19 +29,19 @@ namespace AirTNG.Web.Domain.Reservations
             _repository = repository;
         }
 
-        public async void SendNotification(Reservation reservation)
+        public async Task<Message> SendNotificationAsync(Reservation reservation)
         {
             var pendingReservations = await _repository.FindPendingReservationsAsync();
 
             // Don't send the message if we have more than one or we aren't being forced
             if (pendingReservations.Count() > 1)
             {
-                return;
+                return null;
             }
 
 
             var notification = BuildNotification(reservation);
-            _client.SendMessage(notification.From, notification.To, notification.Messsage);
+            return _client.SendMessage(notification.From, notification.To, notification.Messsage);
         }
 
         private static Notification BuildNotification(Reservation reservation)
