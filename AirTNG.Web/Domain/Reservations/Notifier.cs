@@ -32,13 +32,7 @@ namespace AirTNG.Web.Domain.Reservations
         public async Task<Message> SendNotificationAsync(Reservation reservation)
         {
             var pendingReservations = await _repository.FindPendingReservationsAsync();
-
-            // Don't send the message if we have more than one or we aren't being forced
-            if (pendingReservations.Count() > 1)
-            {
-                return null;
-            }
-
+            if (pendingReservations.Count() > 1) return null;
 
             var notification = BuildNotification(reservation);
             return _client.SendMessage(notification.From, notification.To, notification.Messsage);
