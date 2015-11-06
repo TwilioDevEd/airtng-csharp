@@ -204,3 +204,6 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options fPile
 *.opt
+
+# Project
+AirTNG.Web/Local.config
