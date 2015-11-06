@@ -84,6 +84,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="TestStack.FluentMVCTesting">
       <HintPath>..\packages\TestStack.FluentMVCTesting.3.0.0\lib\NET45\TestStack.FluentMVCTesting.dll</HintPath>
     </Reference>
@@ -107,10 +108,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Utils\Extensions.cs" />
+    <Compile Include="Extensions\ControllerResultTestExtensions.cs" />
     <Compile Include="Controllers\ReservationsControllerTest.cs" />
     <Compile Include="Controllers\VacationPropertiesControllerTest.cs" />
     <Compile Include="Domain\Reservations\NotifierTest.cs" />
+    <Compile Include="Extensions\TwiMLResultExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

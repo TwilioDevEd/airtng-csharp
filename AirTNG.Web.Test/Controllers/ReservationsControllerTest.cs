@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Xml.XPath;
 using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using AirTNG.Web.Test.Utils;
+using AirTNG.Web.Test.Extensions;
 using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
@@ -99,7 +100,7 @@ namespace AirTNG.Web.Test.Controllers
             controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
                 .ShouldReturnTwiMLResult(data =>
                 {
-                    StringAssert.Contains(expectedMessage, data.SelectSingleNode("Response/Message").InnerText);
+                    StringAssert.Contains(expectedMessage, data.XPathSelectElement("Response/Message").Value);
                 });
         }
 
@@ -127,7 +128,7 @@ namespace AirTNG.Web.Test.Controllers
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
                 .ShouldReturnTwiMLResult(data =>
                 {
-                    StringAssert.Contains("Sorry", data.SelectSingleNode("Response/Message").InnerText);
+                    StringAssert.Contains("Sorry", data.XPathSelectElement("Response/Message").Value);
                 });
         }
     }

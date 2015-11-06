@@ -51,7 +51,6 @@ namespace AirTNG.Web.Controllers
             return View(reservation);
         }
 
-
         // POST: Reservations/Create
         [HttpPost]
         public async Task<ActionResult> Create(ReservationViewModel model)
