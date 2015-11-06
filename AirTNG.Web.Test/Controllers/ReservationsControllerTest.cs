@@ -1,4 +1,5 @@
-﻿using AirTNG.Web.Controllers;
+﻿using System;
+using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -7,6 +8,8 @@ using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
+
+// ReSharper disable PossibleNullReferenceException
 
 namespace AirTNG.Web.Test.Controllers
 {
@@ -70,14 +73,12 @@ namespace AirTNG.Web.Test.Controllers
                 .ShouldRenderDefaultView();
         }
 
-        [Test]
-        public void GivenAHandleAction()
+        [TestCase("yes", "Confirmed")]
+        [TestCase("no", "Rejected")]
+        public void GivenAHandleAction_WhenThereAreAPendingReservation_AndTheUserRespondsYesOrNo_ThenRespondWithReservationStatus(
+            string smsRequestBody, string expectedMessage)
         {
-            var host = new ApplicationUser
-            {
-                Id = "user-id"
-            };
-
+            var host = new ApplicationUser {Id = "user-id"};
             var stubVacationPropertiesRepository = Mock.Of<IVacationPropertiesRepository>();
             var mockUsersRepository = new Mock<IUsersRepository>();
             var mockReservationsRepository = new Mock<IReservationsRepository>();
@@ -95,8 +96,39 @@ namespace AirTNG.Web.Test.Controllers
                 mockUsersRepository.Object,
                 stubNotifier);
 
+            controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
+                .ShouldReturnTwiMLResult(data =>
+                {
+                    StringAssert.Contains(expectedMessage, data.SelectSingleNode("Response/Message").InnerText);
+                });
+        }
+
+        [Test]
+        public void GivenAHandleAction_WhenThereAreNoPendingReservations_TheResponseContainsSorryMessage()
+        {
+            var host = new ApplicationUser {Id = "user-id"};
+            var stubVacationPropertiesRepository = Mock.Of<IVacationPropertiesRepository>();
+            var mockUsersRepository = new Mock<IUsersRepository>();
+            var mockReservationsRepository = new Mock<IReservationsRepository>();
+            mockReservationsRepository
+                .Setup(r => r.FindFirstPendingReservationByHostAsync(host.Id))
+                .ThrowsAsync(new InvalidOperationException()); // There are no reservations
+            mockUsersRepository
+                .Setup(r => r.FindByPhoneNumberAsync(It.IsAny<string>()))
+                .ReturnsAsync(host);
+            var stubNotifier = Mock.Of<INotifier>();
+
+            var controller = new ReservationsController(
+                stubVacationPropertiesRepository,
+                mockReservationsRepository.Object,
+                mockUsersRepository.Object,
+                stubNotifier);
+
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
-                .ShouldReturnTwiMLResult();
+                .ShouldReturnTwiMLResult(data =>
+                {
+                    StringAssert.Contains("Sorry", data.SelectSingleNode("Response/Message").InnerText);
+                });
         }
     }
 }
