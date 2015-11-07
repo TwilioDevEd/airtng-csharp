@@ -56,7 +56,7 @@
 
       * [Entity Framework Code First to a New Database](//msdn.microsoft.com/en-us/data/jj193542.aspx)
 
-  .step(data-title='Reservation', data-file='AirTNG.Web/Models/VacationProperty.cs', data-highlight='6-15')
+  .step(data-title='Reservation', data-file='AirTNG.Web/Models/Reservation.cs', data-highlight='6-17')
     :markdown
       ## Reservation
 
@@ -73,10 +73,9 @@
       **See Also:**
 
       * [Entity Framework Code First to a New Database](//msdn.microsoft.com/en-us/data/spx)
+      * [Relationships and Navigation Properties](//msdn.microsoft.com/en-us/data/jj713564.aspx)
 
-  .step(data-title="Reservation Creation",
-    data-file='AirTNG.Web/Controllers/ReservationsController.cs',
-    data-highlight='55-79')
+  .step(data-title="Reservation Creation", data-file='AirTNG.Web/Controllers/ReservationsController.cs', data-highlight='55-79')
     :markdown
       ## Reservation Creation
 
@@ -97,9 +96,7 @@
 
       * [Using Asynchronous Methods in ASP.NET MVC 4](//www.asp.net/mvc/overview/performance/using-asynchronous-methods-in-aspnet-mvc-4)
 
-  .step(data-title='Notifying The Host',
-    data-file='AirTNG.Web/Domain/Reservations/Notifier.cs',
-    data-highlight='32-39')
+  .step(data-title='Notifying The Host', data-file='AirTNG.Web/Domain/Reservations/Notifier.cs', data-highlight='32-39')
     :markdown
       ## Notifying The Host
 
@@ -123,9 +120,7 @@
       * [Twilio Rest API](//www.twilio.com/docs/api/rest)
       * [SMS and MMS Quickstart Tutorial](//www.twilio.com/docs/quickstart/csharp/sms/sending-via-rest)
 
-  .step(data-title='Handling Incoming Messages',
-    data-file='AirTNG.Web/Controllers/ReservationsController.cs',
-    data-highlight='81-109')
+  .step(data-title='Handling Incoming Messages', data-file='AirTNG.Web/Controllers/ReservationsController.cs', data-highlight='81-109')
     :markdown
       ## Handling Incoming Messages
 
@@ -136,9 +131,7 @@
       2. Updates the status of the reservation.
       3. Responds to the host and sends notification to the guest.
 
-  .step(data-title='Incoming Twilio Request',
-    data-file='AirTNG.Web/Controllers/ReservationsController.cs',
-    data-highlight='81-109')
+  .step(data-title='Incoming Twilio Request', data-file='AirTNG.Web/Controllers/ReservationsController.cs', data-highlight='81-109')
     :markdown
       ## Incoming Twilio Request
 
@@ -166,9 +159,7 @@
       as a response to Twilio's server instructing it to send a SMS messages to
       the _guest_.
 
-  .step(data-title='TwiML Response',
-    data-file='AirTNG.Web/Controllers/ReservationsController.cs',
-    data-highlight='111-117')
+  .step(data-title='TwiML Response', data-file='AirTNG.Web/Controllers/ReservationsController.cs', data-highlight='111-117')
     :markdown
       ## TwiML Response
       After updating the reservation status, we must notify the _host_ that he/she
