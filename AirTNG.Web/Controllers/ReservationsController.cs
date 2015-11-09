@@ -5,6 +5,7 @@ using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using AirTNG.Web.ViewModels;
+using Microsoft.AspNet.Identity;
 using Twilio.TwiML;
 using Twilio.TwiML.Mvc;
 
@@ -17,6 +18,8 @@ namespace AirTNG.Web.Controllers
         private readonly IReservationsRepository _reservationsRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly INotifier _notifier;
+
+        public Func<string> UserId;
 
         public ReservationsController() : this(
             new VacationPropertiesRepository(),
@@ -34,6 +37,7 @@ namespace AirTNG.Web.Controllers
             _reservationsRepository = reservationsRepository;
             _usersRepository = usersRepository;
             _notifier = notifier;
+            UserId = () => User.Identity.GetUserId();
         }
 
         // GET: Reservations/Create
@@ -62,15 +66,15 @@ namespace AirTNG.Web.Controllers
                 var reservation = new Reservation
                 {
                     Message = model.Message,
-                    PhoneNumber = model.UserPhoneNumber,
-                    Name = model.UserName,
+                    UserId = UserId(), // This is the reservee user ID
                     VactionPropertyId = model.VacationPropertyId,
                     Status = ReservationStatus.Pending,
                     CreatedAt = DateTime.Now
                 };
 
                 await _reservationsRepository.CreateAsync(reservation);
-                reservation.VacationProperty = new VacationProperty {Description = model.VacationPropertyDescription};
+                await _reservationsRepository.LoadNavigationPropertiesAsync(reservation);
+
                 await _notifier.SendNotificationAsync(reservation);
 
                 return RedirectToAction("Index", "VacationProperties");

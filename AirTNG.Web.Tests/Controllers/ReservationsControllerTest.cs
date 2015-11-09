@@ -43,7 +43,7 @@ namespace AirTNG.Web.Tests.Controllers
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository, mockReservationsRepository.Object, stubUsersRepository,
-                mockNotifier.Object);
+                mockNotifier.Object) {UserId = () => "bob-id"};
 
             controller.WithCallTo(c => c.Create(model))
                 .ShouldRedirectTo<VacationPropertiesController>(c => c.Index());

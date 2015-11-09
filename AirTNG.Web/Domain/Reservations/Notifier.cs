@@ -42,7 +42,7 @@ namespace AirTNG.Web.Domain.Reservations
         {
             var message = new StringBuilder();
             message.AppendFormat("You have a new reservation request from {0} for {1}:{2}",
-                reservation.Name,
+                reservation.Reservee.Name,
                 reservation.VacationProperty.Description,
                 Environment.NewLine);
             message.AppendFormat("{0}{1}",
@@ -53,7 +53,7 @@ namespace AirTNG.Web.Domain.Reservations
             return new Notification
             {
                 From = PhoneNumbers.Twilio,
-                To = reservation.PhoneNumber,
+                To = reservation.Reservee.PhoneNumber,
                 Messsage = message.ToString()
             };
         }
