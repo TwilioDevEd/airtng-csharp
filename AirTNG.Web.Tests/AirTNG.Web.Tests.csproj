@@ -108,7 +108,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Domain\Twilio\ClientTest.cs" />
+    <Compile Include="Domain\PhoneNumber\PurchaserTest.cs" />
     <Compile Include="Extensions\ControllerResultTestExtensions.cs" />
     <Compile Include="Controllers\ReservationsControllerTest.cs" />
     <Compile Include="Controllers\VacationPropertiesControllerTest.cs" />

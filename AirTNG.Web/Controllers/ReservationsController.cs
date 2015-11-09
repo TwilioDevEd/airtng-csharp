@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using AirTNG.Web.Domain.PhoneNumber;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -18,6 +19,7 @@ namespace AirTNG.Web.Controllers
         private readonly IReservationsRepository _reservationsRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly INotifier _notifier;
+        private readonly IPurchaser _phoneNumberPurchaser;
 
         public Func<string> UserId;
 
@@ -25,18 +27,21 @@ namespace AirTNG.Web.Controllers
             new VacationPropertiesRepository(),
             new ReservationsRepository(),
             new UsersRepository(),
-            new Notifier()) { }
+            new Notifier(),
+            new Purchaser()) { }
 
         public ReservationsController(
             IVacationPropertiesRepository vacationPropertiesRepository,
             IReservationsRepository reservationsRepository,
             IUsersRepository usersRepository,
-            INotifier notifier)
+            INotifier notifier,
+            IPurchaser phoneNumberPurchaser)
         {
             _vacationPropertiesRepository = vacationPropertiesRepository;
             _reservationsRepository = reservationsRepository;
             _usersRepository = usersRepository;
             _notifier = notifier;
+            _phoneNumberPurchaser = phoneNumberPurchaser;
             UserId = () => User.Identity.GetUserId();
         }
 
@@ -96,11 +101,18 @@ namespace AirTNG.Web.Controllers
                 var reservation = await _reservationsRepository.FindFirstPendingReservationByHostAsync(host.Id);
 
                 var smsRequest = body;
-                reservation.Status =
-                    smsRequest.Equals("accept", StringComparison.InvariantCultureIgnoreCase) ||
-                    smsRequest.Equals("yes", StringComparison.InvariantCultureIgnoreCase)
-                    ? ReservationStatus.Confirmed
-                    : ReservationStatus.Rejected;
+                if (IsSmsRequestAccepted(smsRequest))
+                {
+                    // TODO: Update user model to handle the area code.
+                    var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase("area-code");
+
+                    reservation.Status = ReservationStatus.Confirmed;
+                    reservation.TwilioNumber = purchasedPhoneNumber.PhoneNumber;
+                }
+                else
+                {
+                    reservation.Status = ReservationStatus.Rejected;
+                }
 
                 await _reservationsRepository.UpdateAsync(reservation);
                 smsResponse =
@@ -120,6 +132,12 @@ namespace AirTNG.Web.Controllers
             response.Message(message);
 
             return response;
+        }
+
+        private static bool IsSmsRequestAccepted(string smsRequest)
+        {
+            return smsRequest.Equals("accept", StringComparison.InvariantCultureIgnoreCase) ||
+                   smsRequest.Equals("yes", StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

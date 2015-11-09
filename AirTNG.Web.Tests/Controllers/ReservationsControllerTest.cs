@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml.XPath;
 using AirTNG.Web.Controllers;
+using AirTNG.Web.Domain.PhoneNumber;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -9,6 +10,7 @@ using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
+using Twilio;
 
 // ReSharper disable PossibleNullReferenceException
 
@@ -25,8 +27,9 @@ namespace AirTNG.Web.Tests.Controllers
             var stubReservationsRepository = Mock.Of<IReservationsRepository>();
             var stubUsersRepository = Mock.Of<IUsersRepository>();
             var stubNotifier = Mock.Of<INotifier>();
+            var stubPurchaser = Mock.Of<IPurchaser>();
             var controller = new ReservationsController(
-                mockVacationsRepository.Object, stubReservationsRepository, stubUsersRepository, stubNotifier);
+                mockVacationsRepository.Object, stubReservationsRepository, stubUsersRepository, stubNotifier, stubPurchaser);
             controller.WithCallTo(c => c.Create(1))
                 .ShouldRenderDefaultView();
         }
@@ -40,10 +43,11 @@ namespace AirTNG.Web.Tests.Controllers
             var mockReservationsRepository = new Mock<IReservationsRepository>();
             var stubUsersRepository = Mock.Of<IUsersRepository>();
             var mockNotifier = new Mock<INotifier>();
+            var stubPurchaser = Mock.Of<IPurchaser>();
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository, mockReservationsRepository.Object, stubUsersRepository,
-                mockNotifier.Object) {UserId = () => "bob-id"};
+                mockNotifier.Object, stubPurchaser) {UserId = () => "bob-id"};
 
             controller.WithCallTo(c => c.Create(model))
                 .ShouldRedirectTo<VacationPropertiesController>(c => c.Index());
@@ -60,9 +64,10 @@ namespace AirTNG.Web.Tests.Controllers
             var stubReservationsRepository = Mock.Of<IReservationsRepository>();
             var stubUsersRepository = Mock.Of<IUsersRepository>();
             var stubNotifier = Mock.Of<INotifier>();
+            var stubPurchaser = Mock.Of<IPurchaser>();
 
             var controller = new ReservationsController(
-                stubVacationPropertiesRepository, stubReservationsRepository, stubUsersRepository, stubNotifier);
+                stubVacationPropertiesRepository, stubReservationsRepository, stubUsersRepository, stubNotifier, stubPurchaser);
             controller.ModelState.AddModelError("Message", "The Message field is required");
 
             controller.WithCallTo(c => c.Create(model))
@@ -85,12 +90,15 @@ namespace AirTNG.Web.Tests.Controllers
                 .Setup(r => r.FindByPhoneNumberAsync(It.IsAny<string>()))
                 .ReturnsAsync(host);
             var stubNotifier = Mock.Of<INotifier>();
+            var mockPurchaser = new Mock<IPurchaser>();
+            mockPurchaser.Setup(p => p.Purchase(It.IsAny<string>())).Returns(new IncomingPhoneNumber());
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository,
                 mockReservationsRepository.Object,
                 mockUsersRepository.Object,
-                stubNotifier);
+                stubNotifier,
+                mockPurchaser.Object);
 
             controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
                 .ShouldReturnTwiMLResult(data =>
@@ -113,12 +121,14 @@ namespace AirTNG.Web.Tests.Controllers
                 .Setup(r => r.FindByPhoneNumberAsync(It.IsAny<string>()))
                 .ReturnsAsync(host);
             var stubNotifier = Mock.Of<INotifier>();
+            var stubPurchaser = Mock.Of<IPurchaser>();
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository,
                 mockReservationsRepository.Object,
                 mockUsersRepository.Object,
-                stubNotifier);
+                stubNotifier,
+                stubPurchaser);
 
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
                 .ShouldReturnTwiMLResult(data =>
