@@ -11,6 +11,10 @@ namespace AirTNG.Web.Domain.Twilio
         public static string AuthToken {
             get { return WebConfigurationManager.AppSettings["TwilioAuthToken"]; }
         }
+
+        public static string ApplicationSID {
+            get { return WebConfigurationManager.AppSettings["TwiMLApplicationSID"]; }
+        }
     }
 
 
