@@ -10,6 +10,7 @@ using Twilio.TwiML.Mvc;
 
 namespace AirTNG.Web.Controllers
 {
+    [Authorize]
     public class ReservationsController : TwilioController
     {
         private readonly IVacationPropertiesRepository _vacationPropertiesRepository;
@@ -80,6 +81,7 @@ namespace AirTNG.Web.Controllers
 
         // POST Reservations/Handle
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Handle(string from, string body)
         {
             string smsResponse;
