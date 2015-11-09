@@ -4,7 +4,7 @@ using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using AirTNG.Web.Test.Extensions;
+using AirTNG.Web.Tests.Extensions;
 using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
@@ -12,7 +12,7 @@ using TestStack.FluentMVCTesting;
 
 // ReSharper disable PossibleNullReferenceException
 
-namespace AirTNG.Web.Test.Controllers
+namespace AirTNG.Web.Tests.Controllers
 {
     public class ReservationsControllerTest
     {

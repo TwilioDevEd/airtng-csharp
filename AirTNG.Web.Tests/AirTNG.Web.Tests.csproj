@@ -6,8 +6,8 @@
     <ProjectGuid>{8453894B-2881-4AF5-BF47-E672AACEC871}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AirTNG.Web.Test</RootNamespace>
-    <AssemblyName>AirTNG.Web.Test</AssemblyName>
+    <RootNamespace>AirTNG.Web.Tests</RootNamespace>
+    <AssemblyName>AirTNG.Web.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

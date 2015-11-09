@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Twilio.TwiML.Mvc;
 
-namespace AirTNG.Web.Test.Extensions
+namespace AirTNG.Web.Tests.Extensions
 {
     public static class TwiMLResultExtensions
     {

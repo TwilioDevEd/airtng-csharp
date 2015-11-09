@@ -6,7 +6,7 @@ using Moq;
 using NUnit.Framework;
 using Twilio;
 
-namespace AirTNG.Web.Test.Domain.Reservations
+namespace AirTNG.Web.Tests.Domain.Reservations
 {
     public class NotifierTest
     {

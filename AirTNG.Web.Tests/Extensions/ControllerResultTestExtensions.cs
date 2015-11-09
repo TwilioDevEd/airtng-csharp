@@ -4,7 +4,7 @@ using System.Xml.Linq;
 using TestStack.FluentMVCTesting;
 using Twilio.TwiML.Mvc;
 
-namespace AirTNG.Web.Test.Extensions
+namespace AirTNG.Web.Tests.Extensions
 {
     public static class ControllerResultTestExtensions
     {

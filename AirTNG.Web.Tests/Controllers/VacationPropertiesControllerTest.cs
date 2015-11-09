@@ -7,7 +7,7 @@ using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
 
-namespace AirTNG.Web.Test.Controllers
+namespace AirTNG.Web.Tests.Controllers
 {
     public class VacationPropertiesControllerTest
     {
