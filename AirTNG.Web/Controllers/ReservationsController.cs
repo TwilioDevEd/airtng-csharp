@@ -76,7 +76,7 @@ namespace AirTNG.Web.Controllers
                 return RedirectToAction("Index", "VacationProperties");
             }
 
-            return View();
+            return View(model);
         }
 
         // POST Reservations/Handle

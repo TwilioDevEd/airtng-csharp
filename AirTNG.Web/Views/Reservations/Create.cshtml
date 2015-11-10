@@ -27,16 +27,12 @@
                         @Html.ValidationMessageFor(x => x.Message, "", new { @class = "text-danger" })
                     </div>
                     <div class="hidden">
-                        @Html.TextBoxFor(x => x.UserName)
-                    </div>
-                    <div class="hidden">
-                        @Html.TextBoxFor(x => x.UserPhoneNumber)
-                    </div>
-                    <div class="hidden">
-                        @Html.TextBoxFor(x => x.VacationPropertyId)
-                    </div>
-                    <div class="hidden">
-                        @Html.TextBoxFor(x => x.VacationPropertyDescription)
+                        @Html.HiddenFor(x => x.UserName)
+                        @Html.HiddenFor(x => x.Description)
+                        @Html.HiddenFor(x => x.ImageUrl)
+                        @Html.HiddenFor(x => x.UserPhoneNumber)
+                        @Html.HiddenFor(x => x.VacationPropertyId)
+                        @Html.HiddenFor(x => x.VacationPropertyDescription)
                     </div>
                     <button class="btn btn-primary">Reserve Now</button>
                 }
