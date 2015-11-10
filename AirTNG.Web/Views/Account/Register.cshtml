@@ -38,8 +38,16 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.PhoneNumber)
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger"})
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(m => m.AreaCode, new { @class = "form-control", placeholder = "Area Code" })
+                            @Html.ValidationMessageFor(m => m.AreaCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Phone Number" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                 </div>
                 <input type="submit" value="Sign up" class="btn btn-primary" />
             }

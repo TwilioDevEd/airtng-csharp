@@ -153,7 +153,8 @@ namespace AirTNG.Web.Controllers
                     Name = model.Name,
                     UserName = model.Email,
                     Email = model.Email,
-                    PhoneNumber = string.Format("+{0}{1}", model.CountryCode, model.PhoneNumber)
+                    AreaCode = model.AreaCode,
+                    PhoneNumber = string.Format("+{0}{1}{2}", model.CountryCode, model.AreaCode, model.PhoneNumber)
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);

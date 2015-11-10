@@ -84,6 +84,10 @@ namespace AirTNG.Web.Models
         public string CountryCode { get; set; }
 
         [Required]
+        [Display(Name = "Area code")]
+        public string AreaCode { get; set; }
+
+        [Required]
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
     }
