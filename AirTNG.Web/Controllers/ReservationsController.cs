@@ -55,8 +55,8 @@ namespace AirTNG.Web.Controllers
                 Description = vacationProperty.Description,
                 VacationPropertyId = vacationProperty.Id,
                 VacationPropertyDescription = vacationProperty.Description,
-                UserName = vacationProperty.User.Name,
-                UserPhoneNumber = vacationProperty.User.PhoneNumber,
+                UserName = vacationProperty.Owner.Name,
+                UserPhoneNumber = vacationProperty.Owner.PhoneNumber,
             };
 
             return View(reservation);

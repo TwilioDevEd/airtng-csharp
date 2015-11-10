@@ -50,7 +50,7 @@ namespace AirTNG.Web.Models.Repository
         public async Task LoadNavigationPropertiesAsync(Reservation reservation)
         {
             await _context.Entry(reservation).Reference(r => r.VacationProperty).LoadAsync();
-            await _context.Entry(reservation).Reference(r => r.Reservee).LoadAsync();
+            await _context.Entry(reservation).Reference(r => r.Guest).LoadAsync();
         }
     }
 }

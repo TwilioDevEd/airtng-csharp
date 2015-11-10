@@ -14,7 +14,7 @@ namespace AirTNG.Web.Models
         public virtual VacationProperty VacationProperty { get; set; }
         public string UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual ApplicationUser Reservee { get; set; }
+        public virtual ApplicationUser Guest { get; set; }
         public string AnonymousPhoneNumber { get; set; }
     }
 }
