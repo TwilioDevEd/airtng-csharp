@@ -107,7 +107,7 @@ namespace AirTNG.Web.Controllers
                     var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase("area-code");
 
                     reservation.Status = ReservationStatus.Confirmed;
-                    reservation.TwilioNumber = purchasedPhoneNumber.PhoneNumber;
+                    reservation.AnonymousPhoneNumber = purchasedPhoneNumber.PhoneNumber;
                 }
                 else
                 {

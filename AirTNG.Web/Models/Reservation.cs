@@ -15,6 +15,6 @@ namespace AirTNG.Web.Models
         public string UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual ApplicationUser Reservee { get; set; }
-        public string TwilioNumber { get; set; }
+        public string AnonymousPhoneNumber { get; set; }
     }
 }
