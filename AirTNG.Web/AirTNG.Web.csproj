@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201511091653428_AddReserveeAndTwilioNumberToReservation.Designer.cs">
       <DependentUpon>201511091653428_AddReserveeAndTwilioNumberToReservation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511101136423_AddAreaCodeToUsers.cs" />
+    <Compile Include="Migrations\201511101136423_AddAreaCodeToUsers.Designer.cs">
+      <DependentUpon>201511101136423_AddAreaCodeToUsers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -341,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201511091653428_AddReserveeAndTwilioNumberToReservation.resx">
       <DependentUpon>201511091653428_AddReserveeAndTwilioNumberToReservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511101136423_AddAreaCodeToUsers.resx">
+      <DependentUpon>201511101136423_AddAreaCodeToUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

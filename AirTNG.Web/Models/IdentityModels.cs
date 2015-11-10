@@ -12,6 +12,8 @@ namespace AirTNG.Web.Models
     {
         public string Name { get; set; }
 
+        public string AreaCode { get; set; }
+
         public virtual IList<VacationProperty> VacationProperties { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
