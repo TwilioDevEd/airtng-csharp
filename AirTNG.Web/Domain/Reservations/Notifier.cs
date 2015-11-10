@@ -53,7 +53,7 @@ namespace AirTNG.Web.Domain.Reservations
             return new Notification
             {
                 From = PhoneNumbers.Twilio,
-                To = reservation.Guest.PhoneNumber,
+                To = reservation.Host.PhoneNumber,
                 Messsage = message.ToString()
             };
         }
