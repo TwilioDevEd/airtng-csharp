@@ -16,5 +16,10 @@ namespace AirTNG.Web.Models
         [ForeignKey("UserId")]
         public virtual ApplicationUser Guest { get; set; }
         public string AnonymousPhoneNumber { get; set; }
+        [NotMapped]
+        public ApplicationUser Host
+        {
+            get { return VacationProperty.Owner; }
+        }
     }
 }

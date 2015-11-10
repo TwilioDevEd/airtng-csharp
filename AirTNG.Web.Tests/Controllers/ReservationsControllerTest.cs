@@ -21,7 +21,7 @@ namespace AirTNG.Web.Tests.Controllers
         [Test]
         public void GivenACreateAction_ThenRendersTheDefaultView()
         {
-            var vacationProperty = new VacationProperty {User = new ApplicationUser()};
+            var vacationProperty = new VacationProperty {Owner = new ApplicationUser()};
             var mockVacationsRepository = new Mock<IVacationPropertiesRepository>();
             mockVacationsRepository.Setup(r => r.FindAsync(It.IsAny<int>())).ReturnsAsync(vacationProperty);
             var stubReservationsRepository = Mock.Of<IReservationsRepository>();

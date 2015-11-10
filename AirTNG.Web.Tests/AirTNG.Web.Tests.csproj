@@ -108,6 +108,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controllers\PhoneExchangeControllerTest.cs" />
     <Compile Include="Domain\PhoneNumber\PurchaserTest.cs" />
     <Compile Include="Extensions\ControllerResultTestExtensions.cs" />
     <Compile Include="Controllers\ReservationsControllerTest.cs" />

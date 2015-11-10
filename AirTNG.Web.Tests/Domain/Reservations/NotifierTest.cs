@@ -54,7 +54,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
             await notifier.SendNotificationAsync(new Reservation
             {
                 VacationProperty = new VacationProperty(),
-                Reservee = new ApplicationUser {PhoneNumber = hostPhoneNumber}
+                Guest = new ApplicationUser {PhoneNumber = hostPhoneNumber}
             });
 
             mockClient.Verify(c => c.SendMessage(

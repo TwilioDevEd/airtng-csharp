@@ -9,6 +9,7 @@ namespace AirTNG.Web.Models.Repository
     {
         Task<IEnumerable<Reservation>> FindPendingReservationsAsync();
         Task<Reservation> FindFirstPendingReservationByHostAsync(string userId);
+        Task<Reservation> FindByAnonymousPhoneNumberAsync(string phoneNumber);
         Task<int> CreateAsync(Reservation reservation);
         Task<int> UpdateAsync(Reservation reservation);
         Task LoadNavigationPropertiesAsync(Reservation reservation);
@@ -27,6 +28,12 @@ namespace AirTNG.Web.Models.Repository
         {
             return await _context.Reservations
                 .Where(r => r.Status == ReservationStatus.Pending).ToListAsync();
+        }
+
+        public async Task<Reservation> FindByAnonymousPhoneNumberAsync(string phoneNumber)
+        {
+            return await _context.Reservations
+                .FirstAsync(r => r.AnonymousPhoneNumber == phoneNumber);
         }
 
         public async Task<int> CreateAsync(Reservation reservation)

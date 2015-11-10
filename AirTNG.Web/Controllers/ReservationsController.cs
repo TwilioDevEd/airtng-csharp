@@ -103,8 +103,7 @@ namespace AirTNG.Web.Controllers
                 var smsRequest = body;
                 if (IsSmsRequestAccepted(smsRequest))
                 {
-                    // TODO: Update user model to handle the area code.
-                    var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase("area-code");
+                    var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase(host.AreaCode);
 
                     reservation.Status = ReservationStatus.Confirmed;
                     reservation.AnonymousPhoneNumber = purchasedPhoneNumber.PhoneNumber;
