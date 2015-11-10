@@ -328,6 +328,7 @@
     <Content Include="Views\VacationProperties\Create.cshtml" />
     <Content Include="Views\VacationProperties\Edit.cshtml" />
     <Content Include="Views\Reservations\Create.cshtml" />
+    <Content Include="Views\Reservations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

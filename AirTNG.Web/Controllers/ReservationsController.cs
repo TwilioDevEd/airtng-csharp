@@ -45,6 +45,14 @@ namespace AirTNG.Web.Controllers
             UserId = () => User.Identity.GetUserId();
         }
 
+        public async Task<ActionResult> Index()
+        {
+            var user = await _usersRepository.FindAsync(UserId());
+            var reservations = user.Reservations;
+
+            return View(reservations);
+        }
+
         // GET: Reservations/Create
         public async Task<ActionResult> Create(int id)
         {

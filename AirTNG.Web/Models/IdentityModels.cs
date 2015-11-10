@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -15,6 +16,11 @@ namespace AirTNG.Web.Models
         public string AreaCode { get; set; }
 
         public virtual IList<VacationProperty> VacationProperties { get; set; }
+
+        public IEnumerable<Reservation> Reservations
+        {
+            get { return VacationProperties.SelectMany(p => p.Reservations); }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

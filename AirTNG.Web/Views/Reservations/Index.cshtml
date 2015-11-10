@@ -1,0 +1,44 @@
+﻿@model IEnumerable<AirTNG.Web.Models.Reservation>
+
+@section hero
+{
+    <div class="hero-text">
+        <h1>Lodging fit for a captain</h1>
+        <p>The Next Generation of vacation rentals.</p>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        @if (Model.Any())
+        {
+            <h2> Your current reservations as a Host. </h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Guest Name</th>
+                    <th>Phone Number</th>
+                    <th>Message</th>
+                </tr>
+                </thead>
+                <tbody>
+                @{ var counter = 1; }
+                @foreach (var reservation in Model)
+                {
+                    <tr>
+                        <th scope="row">@(counter++)</th>
+                        <td>@reservation.Guest.Name</td>
+                        <td>@reservation.Guest.PhoneNumber</td>
+                        <td>@reservation.Message</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h2> You are not hosting any reservations. </h2>
+        }
+    </div>
+</div>

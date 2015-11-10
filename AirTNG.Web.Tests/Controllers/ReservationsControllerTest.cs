@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.XPath;
 using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.PhoneNumber;
@@ -135,6 +136,41 @@ namespace AirTNG.Web.Tests.Controllers
                 {
                     StringAssert.Contains("Sorry", data.XPathSelectElement("Response/Message").Value);
                 });
+        }
+
+
+        [Test]
+        public void GivenAnIndexAction_ThenRendersTheDefaultView()
+        {
+            var currentUser = new ApplicationUser
+            {
+                VacationProperties = new List<VacationProperty>
+                {
+                    new VacationProperty
+                    {
+                        Reservations = new List<Reservation> {new Reservation()}
+                    },
+                }
+            };
+            var stubVacationPropertiesRepository = Mock.Of<IVacationPropertiesRepository>();
+            var stubReservationsRepository = Mock.Of<IReservationsRepository>();
+            var mockUsersRepository = new Mock<IUsersRepository>();
+            mockUsersRepository
+                .Setup(r => r.FindAsync("user-id"))
+                .ReturnsAsync(currentUser);
+            var stubNotifier = Mock.Of<INotifier>();
+            var stubPurchaser = Mock.Of<IPurchaser>();
+
+            var controller = new ReservationsController(
+                stubVacationPropertiesRepository,
+                stubReservationsRepository,
+                mockUsersRepository.Object,
+                stubNotifier,
+                stubPurchaser) {UserId = () => "user-id"};
+
+            controller.WithCallTo(c => c.Index())
+                .ShouldRenderDefaultView()
+                .WithModel<IEnumerable<Reservation>>();
         }
     }
 }
