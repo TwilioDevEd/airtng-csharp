@@ -34,8 +34,7 @@
       For this workflow to work, we have to handle authentication, for this
       purpose we're going to rely on _ASP.NET Identity_.
 
-      Each user will hold his personal information, which will be required when the
-      moment to send sms notifications come.
+      Each `User` will need to have a `phone_number` which will be required to send sms notifications later. Otherwise for our purposes we can use a pretty standard user model.
 
       **See Also:**
       * [Introduction to ASP.NET Identity](//www.asp.net/identity/overview/getting-started/introduction-to-aspnet-identity)
@@ -105,11 +104,11 @@
 
       This is where we use [Twilio C# Helper
       Library](//www.twilio.com/docs/csharp/install) to send a SMS message to
-      the _host_, using your [Twilio phone
+      the _host_, using our [Twilio phone
       number](//www.twilio.com/user/account/phone-numbers/incoming).
 
-      As you can see, sending SMS messages using Twilio is as easy as the code
-      to your right shows. Now we just have to wait for the host to send an SMS
+      As you can see, sending SMS messages using Twilio is just a few lines of
+      code. Now we just have to wait for the host to send an SMS
       response accepting or rejecting the reservation, so we can notify the
       guest and host that the reservation information is updated accordingly.
 
@@ -139,7 +138,7 @@
       number](//www.twilio.com/user/account/phone-numbers/incoming) you must
       setup the sms web hook to call your application's end point in the route
       `Reservations/Handle`. Remember to to expose your development machine to
-      the outside world using [ngrok](//ngrok.com/). So, your url for the sms
+      the outside world using [ngrok](//ngrok.com/). The url for the sms
       web hook on your number should look like this:
 
       ```
@@ -163,7 +162,7 @@
     :markdown
       ## TwiML Response
       After updating the reservation status, we must notify the _host_ that he/she
-      has succesfully confirmed or rejected the reservation, or if there are no
+      has successfully confirmed or rejected the reservation, or if there are no
       pending reservations for that user, send a SMS saying this.
 
       Also, if the reservation is _confirmed_ or _rejected_ we send an
