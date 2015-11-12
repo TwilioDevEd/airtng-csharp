@@ -40,11 +40,13 @@ namespace AirTNG.Web.Tests.Controllers
 
             var controller = new PhoneExchangeController(_mockRepository.Object);
             controller
-                .WithCallTo(c => c.InterconnectUsingSms(incommingPhoneNumber, "anonymous-phone-number"))
+                .WithCallTo(c => c.InterconnectUsingSms(incommingPhoneNumber, "anonymous-phone-number", "message"))
                 .ShouldReturnTwiMLResult(data =>
                 {
                     Assert.That(data.XPathSelectElement("Response/Message").Attribute("to").Value,
                         Is.EqualTo(outgoingPhoneNumber));
+                    Assert.That(data.XPathSelectElement("Response/Message").Value,
+                        Is.EqualTo("message"));
                 });
         }
 

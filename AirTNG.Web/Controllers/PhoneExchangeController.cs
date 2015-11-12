@@ -19,12 +19,12 @@ namespace AirTNG.Web.Controllers
 
         // POST: PhoneExchange/InterconnectUsingSms
         [HttpPost]
-        public async Task<ActionResult> InterconnectUsingSms(string from, string to)
+        public async Task<ActionResult> InterconnectUsingSms(string from, string to, string body)
         {
             var outgoingPhoneNumber = await GatherOutgoingPhoneNumberAsync(from, to);
 
             var response = new TwilioResponse();
-            response.Message("message", new {to = outgoingPhoneNumber});
+            response.Message(body, new {to = outgoingPhoneNumber});
 
             return TwiML(response);
         }
