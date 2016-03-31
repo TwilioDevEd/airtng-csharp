@@ -7,9 +7,9 @@ Protect your customers' privacy, and create a seamless interaction by provisioni
 
 ## Configure Twilio to call your webhooks
 
-You will need to configure Twilio to send requests to your application when SMS are received.
+You will need to configure Twilio to send requests to your application when SMSs are received.
 
-You will need to provision at least one Twilio number with sms capabilities so the application's users can make property reservations. You can buy a number [right here](https://www.twilio.com/user/account/phone-numbers/search). Once you have a number you need to configure your number to work with your application. Open [the number management page](https://www.twilio.com/user/account/phone-numbers/incoming) and open a number's configuration by clicking on it.
+You will need to provision at least one Twilio number with SMS capabilities so the application's users can make property reservations. You can buy a number [right here](https://www.twilio.com/user/account/phone-numbers/search). Once you have a number you need to configure your number to work with your application. Open [the number management page](https://www.twilio.com/user/account/phone-numbers/incoming) and open a number's configuration by clicking on it.
 
 Remember that the number where you change the _SMS webhook_ must be the same one you set on the `TwilioPhoneNumber` setting.
 
@@ -36,9 +36,10 @@ Create a new TwiML app at https://www.twilio.com/user/account/apps/add and use i
 
 Once you have created your TwiML app, configure your Twilio phone number to use it ([instructions here](https://www.twilio.com/help/faq/twilio-client/how-do-i-create-a-twiml-app)).
 
-If you don't have a Twilio phone number yet, you can purchase a new number in your [Twilio Account Dashboard](https://www.twilio.com/user/account/phone-numbers/incoming).
+If you don't have a Twilio phone number yet, you can purchase a number in your [Twilio Account Dashboard](https://www.twilio.com/user/account/phone-numbers/incoming).
 
-You'll need to update your TwiML app's voice and SMS URL setting to use your `ngrok` hostname, so it will look something like this:
+You'll need to update your TwiML app's voice and SMS URL setting to use your `ngrok` hostname. It will look something like this:
+
 ```
 http://<your-ngrok-subdomain>.ngrok.io/PhoneExchange/InterconnectUsingSms
 http://<your-ngrok-subdomain>.ngrok.io/PhoneExchange/InterconnectUsingVoice
@@ -46,14 +47,16 @@ http://<your-ngrok-subdomain>.ngrok.io/PhoneExchange/InterconnectUsingVoice
 
 ## Local Development
 
-1. Clone this repository and `cd` into its directory:
+1. Clone this repository and `cd` into it.
+
     ```
     git clone git@github.com:TwilioDevEd/airtng-csharp.git
 
     cd airtng-csharp
     ```
 
-2. Create a new file `AirTNG.Web/Local.config` and update the content with:
+2. Create a new file `AirTNG.Web/Local.config` and update the content.
+
    ```
    <appSettings>
      <add key="TwilioAccountSid" value="Your Twilio Account SID" />
