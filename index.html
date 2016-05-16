@@ -13,7 +13,7 @@
 <p><img src="http://howtodocs.s3.amazonaws.com/airtng-screen.png" alt="Airtng"></p>
 <p>At its core this use-case is about enabling your service providers
 (agents, hosts, customer service reps, administrators, etc) to better
-serve their customer. To illustrate a very real-world example of this
+serve their customers. To illustrate a very real-world example of this
 use-case we will implement a webapp for finding and booking vacation
 properties--we&#39;re calling it Airtng. Here&#39;s how it works:</p>
 <ol>
@@ -32,20 +32,20 @@ junctures.</li>
 <p>Let&#39;s get started! Click the right arrow to move on to the next step of
 the tutorial.</p>
 </div><div data-title="Authentication" data-file="AirTNG.Web/Models/IdentityModels.cs" data-highlight="10-24" class="step"><h2 id="authentication">Authentication</h2>
-<p>For this workflow to work, we have to handle authentication, for this
-purpose we&#39;re going to rely on <em>ASP.NET Identity</em>.</p>
-<p>Each <code>User</code> will need to have a <code>phone_number</code> which will be required to send sms notifications later. Otherwise for our purposes we can use a pretty standard user model.</p>
+<p>For this use case to work we have to handle authentication. We will
+rely on <em>ASP.NET Identity</em> for this purpose.</p>
+<p>Each <code>User</code> will need to have a <code>phone_number</code> that will be required to
+send sms notifications.</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="//www.asp.net/identity/overview/getting-started/introduction-to-aspnet-identity">Introduction to ASP.NET Identity</a></li>
 </ul>
 </div><div data-title="Vacation Property" data-file="AirTNG.Web/Models/VacationProperty.cs" data-highlight="6-15" class="step"><h2 id="vacation-property">Vacation Property</h2>
-<p>In order to build a true vacation rentals company we&#39;ll need a way to
-create the property listings.</p>
+<p>The first thing we need to do is create the property listings.</p>
 <p>The <code>VacationProperty</code> belongs to the <code>User</code> who created it (we&#39;ll call
-this user the <em>host</em> moving forward) and contains only two properties: a
+this user the <em>host</em> from this point on) and contains only two properties: a
 <code>Description</code> and an <code>ImageUrl</code>.</p>
-<p>A <code>VacationProperty</code> could have many <code>Reservations</code>.</p>
+<p>A <code>VacationProperty</code> can have many <code>Reservations</code>.</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="//msdn.microsoft.com/en-us/data/jj193542.aspx">Entity Framework Code First to a New Database</a></li>
@@ -57,7 +57,7 @@ application.</p>
 <ul>
 <li>The <code>VacationProperty</code> it is associated with.</li>
 <li>The <code>User</code> who owns that vacation property (the host). Through this
-property will have access to its phone number.</li>
+property the user will have access to its phone number.</li>
 <li>The <code>Status</code> of the reservation</li>
 </ul>
 <p><strong>See Also:</strong></p>
@@ -67,31 +67,31 @@ property will have access to its phone number.</li>
 </ul>
 </div><div data-title="Reservation Creation" data-file="AirTNG.Web/Controllers/ReservationsController.cs" data-highlight="56-80" class="step"><h2 id="reservation-creation">Reservation Creation</h2>
 <p>The reservation creation form holds only one field, the message that will
-be sent to the <em>host</em> user when reserving one of his properties. The rest
-of the information necessary to create a reservation is taken from the
-vacation property associated with.</p>
+be sent to the <em>host</em> when one of his properties is reserved. The rest
+of the information needed to create a reservation is taken from the
+vacation property itself.</p>
 <p>A reservation is created with a default status
-<code>ReservationStatus.Pending</code>, so when the <em>host</em> replies with an <code>accept</code>
-or <code>reject</code> response, the application knows which reservation the <em>host</em>
+<code>ReservationStatus.Pending</code>. When the <em>host</em> replies with an <code>accept</code>
+or <code>reject</code> response the application knows which reservation the <em>host</em>
 is referring to.</p>
 <p>In the next step we&#39;ll take a look at how the SMS notification is sent to
-the host when the reservation is created.</p>
+the host when a reservation is created.</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="//www.asp.net/mvc/overview/performance/using-asynchronous-methods-in-aspnet-mvc-4">Using Asynchronous Methods in ASP.NET MVC 4</a></li>
 </ul>
 </div><div data-title="Notifying The Host" data-file="AirTNG.Web/Domain/Reservations/Notifier.cs" data-highlight="32-39" class="step"><h2 id="notifying-the-host">Notifying The Host</h2>
-<p>When a reservation is created, we want to notify the owner of said
+<p>When a reservation is created, we want to notify the owner of the
 property that someone has made a reservation.</p>
 <p>This is where we use <a href="//www.twilio.com/docs/csharp/install">Twilio C# Helper
 Library</a> to send a SMS message to
 the <em>host</em>, using our <a href="//www.twilio.com/user/account/phone-numbers/incoming">Twilio phone
 number</a>.</p>
-<p>As you can see, sending SMS messages using Twilio is just a few lines of
-code. Now we just have to wait for the host to send an SMS
-response accepting or rejecting the reservation, so we can notify the
+<p>As you can see, sending SMS messages using Twilio is made in only a few lines of
+code. After that we have to wait for the host to send an SMS
+response accepting or rejecting the reservation. That way we can notify the
 guest and host that the reservation information is updated accordingly.</p>
-<p>The next step shows how to handle and configure the host&#39;s SMS response.</p>
+<p>The next step shows us how to handle and configure the host&#39;s SMS response.</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="//www.twilio.com/docs/api/rest">Twilio Rest API</a></li>
@@ -101,7 +101,7 @@ guest and host that the reservation information is updated accordingly.</p>
 <p>Let&#39;s take a closer look at the <code>Reservations/Handle</code> controller. This controller
 handles our incoming Twilio request and does three things:</p>
 <ol>
-<li>Checks for a pending reservation from the incoming user.</li>
+<li>Checks for the guest&#39;s pending reservation.</li>
 <li>Updates the status of the reservation.</li>
 <li>Responds to the host and sends notification to the guest.</li>
 </ol>
@@ -109,27 +109,27 @@ handles our incoming Twilio request and does three things:</p>
 <p>In your <a href="//www.twilio.com/user/account/phone-numbers/incoming">Twilio
 number</a> you must
 setup the sms web hook to call your application&#39;s end point in the route
-<code>Reservations/Handle</code>. Remember to to expose your development machine to
+<code>Reservations/Handle</code>. Remember to expose your development machine to
 the outside world using <a href="//ngrok.com/">ngrok</a>. The url for the sms
 web hook on your number should look like this:</p>
 <pre><code>http://&lt;subdomain&gt;.ngrok.io/Reservations/Handle
 </code></pre><p>An incoming request from Twilio comes with some helpful
 <a href="//www.twilio.com/docs/api/twiml/sms/twilio_request#request-parameters">parameters</a>.
 These include the <code>from</code> phone number and the message <code>body</code>.</p>
-<p>We&#39;ll use the <code>from</code> parameter to lookup the host and check if she has any
-pending reservations. If she does, we&#39;ll use the message body to check if
-she accepted or rejected the reservation.</p>
+<p>We&#39;ll use the <code>from</code> parameter to look for the host and check if he/she has any
+pending reservations. If he/she does, we&#39;ll use the message body to check if
+he/she accepted or rejected the reservation.</p>
 <p>In the last step, we&#39;ll use <a href="//github.com/twilio/twilio-csharp/wiki/Twilio.Api#smsmessage-sendmessage-from-to-body">Twilio&#39;s
 TwiML</a>
-as a response to Twilio&#39;s server instructing it to send a SMS messages to
+as a response to Twilio&#39;s server instructing it to send an SMS message to
 the <em>guest</em>.</p>
 </div><div data-title="TwiML Response" data-file="AirTNG.Web/Controllers/ReservationsController.cs" data-highlight="113-119" class="step"><h2 id="twiml-response">TwiML Response</h2>
 <p>After updating the reservation status, we must notify the <em>host</em> that he/she
-has successfully confirmed or rejected the reservation, or if there are no
-pending reservations for that user, send a SMS saying this.</p>
-<p>Also, if the reservation is <em>confirmed</em> or <em>rejected</em> we send an
-additional SMS to the guest to inform the decision the host made,
-regarding the property reservation.</p>
+has successfully confirmed or rejected the reservation. We also have to notify
+if there are no pending reservations. We will send an SMS notifying this.</p>
+<p>If the reservation is <em>confirmed</em> or <em>rejected</em> we send an
+additional SMS to the guest to inform the decision the host made
+regarding the request made for that property reservation.</p>
 <p>We use the verb <a href="//www.twilio.com/docs/api/twiml/sms/message">Message</a>
 from TwiML to instruct Twilio&#39;s server that it should send the SMS
 messages.</p>
@@ -139,10 +139,9 @@ messages.</p>
 </ul>
 </div><div data-title="Where to Next?" class="step"><h2 id="where-to-next-">Where to Next?</h2>
 <p>Congrats! You just learned how to automate your workflow with Twilio SMS.</p>
-<p>To improve upon this you could add anonymous communications so that the
-host and guest could communicate through a shared Twilio phone number.
-Hmmm... maybe we&#39;ll have to put together a tutorial on that.</p>
-<p>If you&#39;re a .NET developer working with Twilio, you might enjoy these
+<p>To improve this use case you could add anonymous communications so that the
+host and guest could communicate through a private shared Twilio phone number.</p>
+<p>If you&#39;re a .NET developer working with Twilio you might enjoy these
 other tutorials:</p>
 <p><a href="//www.twilio.com/docs/tutorials/walkthrough/ivr-phone-tree/csharp/mvc"><strong>IVR: Phone Tree</strong></a></p>
 <p>Easily route callers to the right people and information with an IVR
@@ -151,9 +150,9 @@ other tutorials:</p>
 <p>Instantly collect structured data from your users with a survey conducted
 over a voice call or SMS text messages.</p>
 <h3 id="did-this-help-">Did this help?</h3>
-<p>Thanks for checking out this tutorial! If you have any feedback to share
-with us, we&#39;d love to hear it. Tweet
-<a href="http://twitter.com/twilio">@twilio</a> to let us know what you think.</p>
+<p>Thanks for checking out this tutorial! If you have any feedback
+to share with us, we&#39;d love to hear it.
+<a href="//www.twilio.com/help/contact">Contact support</a> to let us know what you think.</p>
 <p><img src="http://howtodocs.s3.amazonaws.com/airtng-screen2.png" alt="Airtng"></p>
 </div></div>
 <div class="saurus-files" style="display:none;"><textarea class="saurus-file" data-file="AirTNG.Web/Domain/Reservations/Notifier.cs" data-mode="csharp">77u/dXNpbmcgU3lzdGVtOwp1c2luZyBTeXN0ZW0uTGlucTsKdXNpbmcgU3lzdGVtLlRleHQ7CnVzaW5nIFN5c3RlbS5UaHJlYWRpbmcuVGFza3M7CnVzaW5nIEFpclRORy5XZWIuRG9tYWluLlR3aWxpbzsKdXNpbmcgQWlyVE5HLldlYi5Nb2RlbHM7CnVzaW5nIEFpclRORy5XZWIuTW9kZWxzLlJlcG9zaXRvcnk7CnVzaW5nIFR3aWxpbzsKCm5hbWVzcGFjZSBBaXJUTkcuV2ViLkRvbWFpbi5SZXNlcnZhdGlvbnMKewogICAgcHVibGljIGludGVyZmFjZSBJTm90aWZpZXIKICAgIHsKICAgICAgICBUYXNrPE1lc3NhZ2U+IFNlbmROb3RpZmljYXRpb25Bc3luYyhSZXNlcnZhdGlvbiByZXNlcnZhdGlvbik7CiAgICB9CgogICAgcHVibGljIGNsYXNzIE5vdGlmaWVyIDogSU5vdGlmaWVyCiAgICB7CiAgICAgICAgcHJpdmF0ZSByZWFkb25seSBUd2lsaW9SZXN0Q2xpZW50IF9jbGllbnQ7CiAgICAgICAgcHJpdmF0ZSByZWFkb25seSBJUmVzZXJ2YXRpb25zUmVwb3NpdG9yeSBfcmVwb3NpdG9yeTsKCiAgICAgICAgcHVibGljIE5vdGlmaWVyKCkgOiB0aGlzKAogICAgICAgICAgICBuZXcgVHdpbGlvUmVzdENsaWVudChDcmVkZW50aWFscy5BY2NvdW50U0lELCBDcmVkZW50aWFscy5BdXRoVG9rZW4pLAogICAgICAgICAgICBuZXcgUmVzZXJ2YXRpb25zUmVwb3NpdG9yeSgpKSB7IH0KCiAgICAgICAgcHVibGljIE5vdGlmaWVyKFR3aWxpb1Jlc3RDbGllbnQgY2xpZW50LCBJUmVzZXJ2YXRpb25zUmVwb3NpdG9yeSByZXBvc2l0b3J5KQogICAgICAgIHsKICAgICAgICAgICAgX2NsaWVudCA9IGNsaWVudDsKICAgICAgICAgICAgX3JlcG9zaXRvcnkgPSByZXBvc2l0b3J5OwogICAgICAgIH0KCiAgICAgICAgcHVibGljIGFzeW5jIFRhc2s8TWVzc2FnZT4gU2VuZE5vdGlmaWNhdGlvbkFzeW5jKFJlc2VydmF0aW9uIHJlc2VydmF0aW9uKQogICAgICAgIHsKICAgICAgICAgICAgdmFyIHBlbmRpbmdSZXNlcnZhdGlvbnMgPSBhd2FpdCBfcmVwb3NpdG9yeS5GaW5kUGVuZGluZ1Jlc2VydmF0aW9uc0FzeW5jKCk7CiAgICAgICAgICAgIGlmIChwZW5kaW5nUmVzZXJ2YXRpb25zLkNvdW50KCkgPiAxKSByZXR1cm4gbnVsbDsKCiAgICAgICAgICAgIHZhciBub3RpZmljYXRpb24gPSBCdWlsZE5vdGlmaWNhdGlvbihyZXNlcnZhdGlvbik7CiAgICAgICAgICAgIHJldHVybiBfY2xpZW50LlNlbmRNZXNzYWdlKG5vdGlmaWNhdGlvbi5Gcm9tLCBub3RpZmljYXRpb24uVG8sIG5vdGlmaWNhdGlvbi5NZXNzc2FnZSk7CiAgICAgICAgfQoKICAgICAgICBwcml2YXRlIHN0YXRpYyBOb3RpZmljYXRpb24gQnVpbGROb3RpZmljYXRpb24oUmVzZXJ2YXRpb24gcmVzZXJ2YXRpb24pCiAgICAgICAgewogICAgICAgICAgICB2YXIgbWVzc2FnZSA9IG5ldyBTdHJpbmdCdWlsZGVyKCk7CiAgICAgICAgICAgIG1lc3NhZ2UuQXBwZW5kRm9ybWF0KCJZb3UgaGF2ZSBhIG5ldyByZXNlcnZhdGlvbiByZXF1ZXN0IGZyb20gezB9IGZvciB7MX06ezJ9IiwKICAgICAgICAgICAgICAgIHJlc2VydmF0aW9uLk5hbWUsCiAgICAgICAgICAgICAgICByZXNlcnZhdGlvbi5WYWNhdGlvblByb3BlcnR5LkRlc2NyaXB0aW9uLAogICAgICAgICAgICAgICAgRW52aXJvbm1lbnQuTmV3TGluZSk7CiAgICAgICAgICAgIG1lc3NhZ2UuQXBwZW5kRm9ybWF0KCJ7MH17MX0iLAogICAgICAgICAgICAgICAgcmVzZXJ2YXRpb24uTWVzc2FnZSwKICAgICAgICAgICAgICAgIEVudmlyb25tZW50Lk5ld0xpbmUpOwogICAgICAgICAgICBtZXNzYWdlLkFwcGVuZCgiUmVwbHkgW2FjY2VwdF0gb3IgW3JlamVjdF0iKTsKCiAgICAgICAgICAgIHJldHVybiBuZXcgTm90aWZpY2F0aW9uCiAgICAgICAgICAgIHsKICAgICAgICAgICAgICAgIEZyb20gPSBQaG9uZU51bWJlcnMuVHdpbGlvLAogICAgICAgICAgICAgICAgVG8gPSByZXNlcnZhdGlvbi5QaG9uZU51bWJlciwKICAgICAgICAgICAgICAgIE1lc3NzYWdlID0gbWVzc2FnZS5Ub1N0cmluZygpCiAgICAgICAgICAgIH07CiAgICAgICAgfQogICAgfQp9Cg==</textarea>
