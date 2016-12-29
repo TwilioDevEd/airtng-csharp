@@ -93,7 +93,7 @@ namespace AirTNG.Web.Tests.Controllers
                 stubNotifier);
 
             controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     StringAssert.Contains(expectedMessage, data.XPathSelectElement("Response/Message").Value);
                 });
@@ -121,7 +121,7 @@ namespace AirTNG.Web.Tests.Controllers
                 stubNotifier);
 
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     StringAssert.Contains("Sorry", data.XPathSelectElement("Response/Message").Value);
                 });

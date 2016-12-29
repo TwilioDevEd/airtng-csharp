@@ -1,9 +1,11 @@
-﻿namespace AirTNG.Web.Domain.Reservations
+﻿using Twilio.Types;
+
+namespace AirTNG.Web.Domain.Reservations
 {
     public class Notification
     {
-        public string From { get; set; }
-        public string To { get; set; }
+        public PhoneNumber From { get; set; }
+        public PhoneNumber To { get; set; }
         public string Messsage { get; set; }
     }
 }
