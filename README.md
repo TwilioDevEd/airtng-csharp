@@ -1,3 +1,7 @@
+<a href="https://www.twilio.com">
+  <img src="https://static0.twilio.com/marketing/bundles/marketing/img/logos/wordmark-red.svg" alt="Twilio" width="250" />
+</a>
+
 # AirTNG App: Part 1 - Workflow Automation with Twilio - ASP.NET MVC
 
 [![Build status](https://ci.appveyor.com/api/projects/status/t8vnms8v35y1mul4?svg=true)](https://ci.appveyor.com/project/TwilioDevEd/airtng-csharp)
