@@ -8,6 +8,7 @@ using AirTNG.Web.Models.Repository;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
+using Twilio.Clients;
 
 namespace AirTNG.Web.Domain.Reservations
 {
@@ -24,6 +25,13 @@ namespace AirTNG.Web.Domain.Reservations
         public Notifier() : this(            
             new ReservationsRepository()) { }
 
+        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient, string accountSid, string authToken)
+        {
+            TwilioClient.Init(accountSid, authToken);
+            TwilioClient.SetRestClient(restClient);
+            _repository = repository;
+        }
+
         public Notifier(IReservationsRepository repository)
         {
             TwilioClient.Init(Credentials.AccountSID, Credentials.AuthToken);
@@ -36,7 +44,9 @@ namespace AirTNG.Web.Domain.Reservations
             if (pendingReservations.Count() > 1) return null;
 
             var notification = BuildNotification(reservation);
-            return MessageResource.Create(notification.To, from: notification.From,body: notification.Messsage);
+            return MessageResource.Create(notification.To, 
+                                          from: notification.From, 
+                                          body: notification.Messsage);
         }
 
         private static Notification BuildNotification(Reservation reservation)
