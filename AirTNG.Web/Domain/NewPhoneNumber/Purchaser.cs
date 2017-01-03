@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using AirTNG.Web.Domain.Twilio;
 using Twilio;
@@ -37,8 +36,9 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
         /// <returns>The purchased phone number</returns>
         public PhoneNumber Purchase(string areaCode)
         {
+            var phoneNumber = SearchForFirstAvailablePhoneNumber(areaCode);
             return IncomingPhoneNumberResource
-                .Create(phoneNumber: SearchForFirstAvailablePhoneNumber(areaCode),
+                .Create(phoneNumber: phoneNumber,
                         voiceApplicationSid: Credentials.ApplicationSID)
                 .PhoneNumber;
         }

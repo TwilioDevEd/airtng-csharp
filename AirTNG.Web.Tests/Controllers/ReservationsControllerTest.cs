@@ -11,8 +11,6 @@ using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
 // ReSharper disable PossibleNullReferenceException

@@ -22,9 +22,12 @@ namespace AirTNG.Web.Domain.Reservations
         private readonly IReservationsRepository _repository;
 
         public Notifier() : this(
-            new ReservationsRepository()) { }
+            new ReservationsRepository())
+        {
+        }
 
-        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient, string accountSid, string authToken)
+        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient, string accountSid,
+            string authToken)
         {
             TwilioClient.Init(accountSid, authToken);
             TwilioClient.SetRestClient(restClient);
@@ -44,8 +47,8 @@ namespace AirTNG.Web.Domain.Reservations
 
             var notification = BuildNotification(reservation);
             return MessageResource.Create(notification.To,
-                                         from: notification.From,
-                                         body: notification.Messsage);
+                from: notification.From,
+                body: notification.Messsage);
         }
 
         private static Notification BuildNotification(Reservation reservation)
