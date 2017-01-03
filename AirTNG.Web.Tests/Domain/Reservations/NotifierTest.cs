@@ -4,10 +4,8 @@ using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using Moq;
 using NUnit.Framework;
-using Twilio;
 using Twilio.Clients;
 using Twilio.Http;
-using System;
 
 namespace AirTNG.Web.Tests.Domain.Reservations
 {

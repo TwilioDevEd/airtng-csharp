@@ -23,7 +23,8 @@ namespace AirTNG.Web.Domain.Twilio
         public static string ApplicationSID {
             get
             {
-                return WebConfigurationManager.AppSettings["TwiMLApplicationSID"];
+                return WebConfigurationManager.AppSettings["TwiMLApplicationSID"] ??
+                    "APXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
             }
         }
     }

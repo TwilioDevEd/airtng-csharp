@@ -8,7 +8,6 @@ using AirTNG.Web.Models.Repository;
 using AirTNG.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Twilio.TwiML;
-using Twilio.Types;
 
 namespace AirTNG.Web.Controllers
 {
