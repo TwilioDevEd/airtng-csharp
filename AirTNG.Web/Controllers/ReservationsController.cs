@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using AirTNG.Web.Domain.PhoneNumber;
+using AirTNG.Web.Domain.NewPhoneNumber;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using AirTNG.Web.ViewModels;
 using Microsoft.AspNet.Identity;
 using Twilio.TwiML;
-using Twilio.TwiML.Mvc;
+using Twilio.Types;
 
 namespace AirTNG.Web.Controllers
 {
     [Authorize]
-    public class ReservationsController : TwilioController
+    public class ReservationsController : Controller
     {
         private readonly IVacationPropertiesRepository _vacationPropertiesRepository;
         private readonly IReservationsRepository _reservationsRepository;
@@ -101,7 +101,7 @@ namespace AirTNG.Web.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Handle(string from, string body)
         {
-            string smsResponse;
+            string smsResponseBody;
 
             try
             {
@@ -114,7 +114,7 @@ namespace AirTNG.Web.Controllers
                     var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase(host.AreaCode);
 
                     reservation.Status = ReservationStatus.Confirmed;
-                    reservation.AnonymousPhoneNumber = purchasedPhoneNumber.PhoneNumber;
+                    reservation.AnonymousPhoneNumber = purchasedPhoneNumber.ToString();
                 }
                 else
                 {
@@ -122,23 +122,23 @@ namespace AirTNG.Web.Controllers
                 }
 
                 await _reservationsRepository.UpdateAsync(reservation);
-                smsResponse =
+                smsResponseBody =
                     string.Format("You have successfully {0} the reservation", reservation.Status);
             }
             catch (Exception)
             {
-                smsResponse = "Sorry, it looks like you don't have any reservations to respond to.";
+                smsResponseBody = "Sorry, it looks like you don't have any reservations to respond to.";
             }
 
-            return TwiML(Respond(smsResponse));
+            return Content(Respond(smsResponseBody, from), "text/xml");
         }
 
-        private static TwilioResponse Respond(string message)
+        private static string Respond(string message, string from)
         {
-            var response = new TwilioResponse();
-            response.Message(message);
+            var response = new MessagingResponse();
+            response.Message(message, to: from);
 
-            return response;
+            return response.ToString();
         }
 
         private static bool IsSmsRequestAccepted(string smsRequest)

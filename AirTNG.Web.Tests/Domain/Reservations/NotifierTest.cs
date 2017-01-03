@@ -5,63 +5,79 @@ using AirTNG.Web.Models.Repository;
 using Moq;
 using NUnit.Framework;
 using Twilio;
+using Twilio.Clients;
+using Twilio.Http;
+using System;
 
 namespace AirTNG.Web.Tests.Domain.Reservations
 {
     public class NotifierTest
     {
         [Test]
-        public async void WhenThereAreMoreThanOneReservation_ThenAnyMessageIsSent()
+        public async void WhenThereAreMoreThanOneReservations_ThenNoMessageIsSent()
         {
-            var mockClient = new Mock<TwilioRestClient>(null, null);
-            mockClient
-                .Setup(c => c.SendMessage(
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
-            var mockRepository = new Mock<IReservationsRepository>();
-            mockRepository
-                .Setup(r => r.FindPendingReservationsAsync())
-                .ReturnsAsync(new List<Reservation>
-                {
+            // Given
+            var mockClient = new Mock<ITwilioRestClient>();
+            var mockRepository = SetupRepositoryMock(new List<Reservation>() {
                     new Reservation(),
                     new Reservation()
                 });
+            var notifier = BuildNotifier(mockClient, mockRepository);
 
-            var notifier = new Notifier(
-                mockClient.Object, mockRepository.Object);
-
+            // When
             await notifier.SendNotificationAsync(new Reservation());
 
-            mockClient.Verify(c => c.SendMessage(
-                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            // Then
+            mockClient.Verify(c => c.Request(It.IsAny<Request>()), Times.Never);
         }
 
         [Test]
-        public async void WhenThereAreLessThanOneReservation_ThenAMessageIsSent()
+        public async void WhenThereIsOneOrNoReservation_ThenAMessageIsSent()
         {
-            var mockClient = new Mock<TwilioRestClient>(null, null);
-            mockClient
-                .Setup(c => c.SendMessage(
-                    It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
+            // Given
+            const string hostPhoneNumber = "host-phone-number";
+            var mockClient = SetupTwilioRestClientMock();
+            var mockRepository = SetupRepositoryMock(new List<Reservation>());
+            var notifier = BuildNotifier(mockClient, mockRepository);
+
+            // When
+            await notifier.SendNotificationAsync(new Reservation
+            {
+                VacationProperty = new VacationProperty(),
+                AnonymousPhoneNumber = hostPhoneNumber
+            });
+
+            // Then
+            mockClient.Verify(c => c.Request(It.IsAny<Request>()), Times.Once);
+        }
+
+        private static Notifier BuildNotifier(Mock<ITwilioRestClient> mockClient, Mock<IReservationsRepository> mockRepository)
+        {
+            return new Notifier(mockRepository.Object,
+                            mockClient.Object,
+                            "AccountSid",
+                            "AuthToken");
+        }
+
+        private static Mock<IReservationsRepository> SetupRepositoryMock(List<Reservation> reservations)
+        {
             var mockRepository = new Mock<IReservationsRepository>();
             mockRepository
                 .Setup(r => r.FindPendingReservationsAsync())
-                .ReturnsAsync(new List<Reservation>());
+                .ReturnsAsync(reservations);
+            return mockRepository;
+        }
 
-            var notifier = new Notifier(
-                mockClient.Object, mockRepository.Object);
-
-            const string hostPhoneNumber = "host-phone-number";
-            await notifier.SendNotificationAsync(new Reservation
-            {
-                VacationProperty = new VacationProperty
-                {
-                    Owner = new ApplicationUser {PhoneNumber = hostPhoneNumber}
-                },
-                Guest = new ApplicationUser()
-            });
-
-            mockClient.Verify(c => c.SendMessage(
-                It.IsAny<string>(), hostPhoneNumber, It.IsAny<string>()), Times.Once);
+        private static Mock<ITwilioRestClient> SetupTwilioRestClientMock()
+        {
+            var mockClient = new Mock<ITwilioRestClient>();
+            mockClient
+                .Setup(c => c.Request(It.Is<Request>(
+                    r => r.Method == HttpMethod.Post &&
+                    r.ConstructUrl().AbsoluteUri.Contains("Messages.json"))
+                    ))
+                .Returns(new Response(System.Net.HttpStatusCode.OK, ""));
+            return mockClient;
         }
     }
 }
