@@ -5,15 +5,26 @@ namespace AirTNG.Web.Domain.Twilio
     public class Credentials
     {
         public static string AccountSID {
-            get { return WebConfigurationManager.AppSettings["TwilioAccountSid"]; }
+            get
+            {
+                return WebConfigurationManager.AppSettings["TwilioAccountSid"] ??
+                     "ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+            }
         }
 
         public static string AuthToken {
-            get { return WebConfigurationManager.AppSettings["TwilioAuthToken"]; }
+            get
+            {
+                return WebConfigurationManager.AppSettings["TwilioAuthToken"] ??
+                    "aXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+            }
         }
 
         public static string ApplicationSID {
-            get { return WebConfigurationManager.AppSettings["TwiMLApplicationSID"]; }
+            get
+            {
+                return WebConfigurationManager.AppSettings["TwiMLApplicationSID"];
+            }
         }
     }
 
