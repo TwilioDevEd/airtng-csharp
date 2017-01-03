@@ -39,12 +39,14 @@ namespace AirTNG.Web.Tests.Domain.Reservations
             var mockClient = SetupTwilioRestClientMock();
             var mockRepository = SetupRepositoryMock(new List<Reservation>());
             var notifier = BuildNotifier(mockClient, mockRepository);
+            var owner = new ApplicationUser {PhoneNumber = "123"};
 
             // When
             await notifier.SendNotificationAsync(new Reservation
             {
-                VacationProperty = new VacationProperty(),
-                AnonymousPhoneNumber = hostPhoneNumber
+                VacationProperty = new VacationProperty { Owner = owner},
+                AnonymousPhoneNumber = hostPhoneNumber,
+                Guest = new ApplicationUser { Name = "guest" }
             });
 
             // Then
