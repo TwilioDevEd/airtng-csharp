@@ -2,11 +2,10 @@
 using System.Web.Mvc;
 using AirTNG.Web.Models.Repository;
 using Twilio.TwiML;
-using Twilio.TwiML.Mvc;
 
 namespace AirTNG.Web.Controllers
 {
-    public class PhoneExchangeController : TwilioController
+    public class PhoneExchangeController : Controller
     {
         private readonly IReservationsRepository _repository;
 
@@ -23,10 +22,10 @@ namespace AirTNG.Web.Controllers
         {
             var outgoingPhoneNumber = await GatherOutgoingPhoneNumberAsync(from, to);
 
-            var response = new TwilioResponse();
-            response.Message(body, new {to = outgoingPhoneNumber});
+            var response = new MessagingResponse();
+            response.Message(body, to: outgoingPhoneNumber);
 
-            return TwiML(response);
+            return Content(response.ToString(), "text/xml");
         }
 
         // POST: PhoneExchange/InterconnectUsingVoice
@@ -35,11 +34,11 @@ namespace AirTNG.Web.Controllers
         {
             var outgoingPhoneNumber = await GatherOutgoingPhoneNumberAsync(from, to);
 
-            var response = new TwilioResponse();
+            var response = new VoiceResponse();
             response.Play("http://howtodocs.s3.amazonaws.com/howdy-tng.mp3");
             response.Dial(outgoingPhoneNumber);
 
-            return TwiML(response);
+            return Content(response.ToString(), "text/xml");
         }
 
         private async Task<string> GatherOutgoingPhoneNumberAsync(
