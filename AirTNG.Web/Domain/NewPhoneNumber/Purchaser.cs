@@ -43,7 +43,12 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
 
         private PhoneNumber SearchForFirstAvailablePhoneNumber(string areaCode)
         {
-            return LocalResource.Read("US", areaCode: Int32.Parse(areaCode), voiceEnabled: true, smsEnabled: true)
+            var localPhoneNumber = LocalResource.Read(
+                "US",
+                areaCode: Int32.Parse(areaCode),
+                voiceEnabled: true,
+                smsEnabled: true);
+            return localPhoneNumber
                 .First() // We're only interested in the first available phone number.
                 .PhoneNumber;
         }
