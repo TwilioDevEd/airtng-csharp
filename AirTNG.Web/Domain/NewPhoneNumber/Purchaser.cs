@@ -34,16 +34,22 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
         /// <returns>The purchased phone number</returns>
         public PhoneNumber Purchase(string areaCode)
         {
-            var phoneNumber = SearchForFirstAvailablePhoneNumber(areaCode);
-            return IncomingPhoneNumberResource
-                .Create(phoneNumber: phoneNumber,
-                        voiceApplicationSid: Credentials.ApplicationSID)
-                .PhoneNumber;
+            var phoneNumber = await SearchForFirstAvailablePhoneNumber(areaCode);
+            var incomingPhoneNumber = await IncomingPhoneNumberResource
+                .CreateAsync(phoneNumber: phoneNumber,
+                             voiceApplicationSid: Credentials.ApplicationSID);
+
+            return incomingPhoneNumber.PhoneNumber;
         }
 
         private PhoneNumber SearchForFirstAvailablePhoneNumber(string areaCode)
         {
-            return LocalResource.Read("US", areaCode: Int32.Parse(areaCode), voiceEnabled: true, smsEnabled: true)
+            var localPhoneNumber = LocalResource.Read(
+                "US",
+                areaCode: Int32.Parse(areaCode),
+                voiceEnabled: true,
+                smsEnabled: true);
+            return localPhoneNumber
                 .First() // We're only interested in the first available phone number.
                 .PhoneNumber;
         }
