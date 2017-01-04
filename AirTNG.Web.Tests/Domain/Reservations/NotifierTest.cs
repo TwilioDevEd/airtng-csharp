@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -6,6 +7,7 @@ using Moq;
 using NUnit.Framework;
 using Twilio.Clients;
 using Twilio.Http;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace AirTNG.Web.Tests.Domain.Reservations
 {
@@ -33,11 +35,11 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         public async void WhenThereIsOneOrNoReservation_ThenAMessageIsSent()
         {
             // Given
-            const string hostPhoneNumber = "host-phone-number";
+            const string hostPhoneNumber = "+456";
             var mockClient = SetupTwilioRestClientMock();
             var mockRepository = SetupRepositoryMock(new List<Reservation>());
             var notifier = BuildNotifier(mockClient, mockRepository);
-            var owner = new ApplicationUser {PhoneNumber = "123"};
+            var owner = new ApplicationUser {PhoneNumber = "+123"};
 
             // When
             await notifier.SendNotificationAsync(new Reservation
@@ -46,9 +48,8 @@ namespace AirTNG.Web.Tests.Domain.Reservations
                 AnonymousPhoneNumber = hostPhoneNumber,
                 Guest = new ApplicationUser { Name = "guest" }
             });
-
             // Then
-            mockClient.Verify(c => c.Request(It.IsAny<Request>()), Times.Once);
+            mockClient.Verify(c => c.RequestAsync(It.IsAny<Request>()), Times.Once);
         }
 
         private static Notifier BuildNotifier(Mock<ITwilioRestClient> mockClient, Mock<IReservationsRepository> mockRepository)
@@ -72,11 +73,11 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         {
             var mockClient = new Mock<ITwilioRestClient>();
             mockClient
-                .Setup(c => c.Request(It.Is<Request>(
+                .Setup(c => c.RequestAsync(It.Is<Request>(
                     r => r.Method == HttpMethod.Post &&
                     r.ConstructUrl().AbsoluteUri.Contains("Messages.json"))
                     ))
-                .Returns(new Response(System.Net.HttpStatusCode.OK, ""));
+                .Returns(Task.FromResult(new Response(System.Net.HttpStatusCode.OK, "")));
             return mockClient;
         }
     }

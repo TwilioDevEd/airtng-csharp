@@ -46,7 +46,7 @@ namespace AirTNG.Web.Domain.Reservations
             if (pendingReservations.Count() > 1) return null;
 
             var notification = BuildNotification(reservation);
-            return MessageResource.Create(notification.To,
+            return await MessageResource.CreateAsync(notification.To,
                 from: notification.From,
                 body: notification.Messsage);
         }

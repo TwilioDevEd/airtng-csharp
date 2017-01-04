@@ -1,4 +1,7 @@
-﻿using AirTNG.Web.Domain.NewPhoneNumber;
+﻿using System;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
+using AirTNG.Web.Domain.NewPhoneNumber;
 using Moq;
 using NUnit.Framework;
 using Twilio.Clients;
@@ -63,39 +66,41 @@ namespace AirTNG.Web.Tests.Domain.PhoneNumber
                 }";
 
         [Test]
-        public void WhenThereAreAvailablePhoneNumbers_APhoneNumberIsPurchased()
+        public async void WhenThereAreAvailablePhoneNumbers_APhoneNumberIsPurchased()
         {
+            // Given
             var mockClient = new Mock<ITwilioRestClient>();
 
-            mockClient
-               .Setup(c => c.Request(It.Is<Request>(
-                   r => Equals(r.Method, HttpMethod.Get) &&
-                   r.ConstructUrl().AbsoluteUri.Contains("/AvailablePhoneNumbers/US/Local.json"))
-                   ))
-               .Returns(new Response(System.Net.HttpStatusCode.OK, readAvailablePhoneNumberResponse));
+            Expression<Func<ITwilioRestClient, Task<Response>>> readAvailablePhoneNumbersSetup = 
+                c => c.RequestAsync(
+                        It.Is<Request>(r => Equals(
+                                                r.Method, HttpMethod.Get) &&
+                                                r.ConstructUrl().AbsoluteUri.Contains(
+                                                    "/AvailablePhoneNumbers/US/Local.json")));
+            Expression<Func<ITwilioRestClient, Task<Response>>> createIncomingPhoneNumberSetup =
+                c => c.RequestAsync(
+                        It.Is<Request>(r => Equals(
+                                                r.Method, HttpMethod.Post) &&
+                                                r.ConstructUrl().AbsoluteUri.Contains(
+                                                    "/IncomingPhoneNumbers.json")));
 
             mockClient
-                .Setup(c => c.Request(It.Is<Request>(
-                   r => Equals(r.Method, HttpMethod.Post) &&
-                   r.ConstructUrl().AbsoluteUri.Contains("/IncomingPhoneNumbers.json"))
-                   ))
-               .Returns(new Response(System.Net.HttpStatusCode.OK, createIncomingPhoneNumberResponse));
+               .Setup(readAvailablePhoneNumbersSetup)
+               .Returns(Task.FromResult(new Response(System.Net.HttpStatusCode.OK, 
+                                                     readAvailablePhoneNumberResponse)));
+            mockClient
+                .Setup(createIncomingPhoneNumberSetup)
+                .Returns(Task.FromResult(new Response(System.Net.HttpStatusCode.OK, 
+                                                     createIncomingPhoneNumberResponse)));
             
             var client = new Purchaser(mockClient.Object);
 
-            client.Purchase("1");
+            // When
+            await client.PurchaseAsync("1");
 
-            mockClient.Verify(c => c.Request(It.Is<Request>(
-                   r => Equals(r.Method, HttpMethod.Get) &&
-                   r.ConstructUrl().AbsoluteUri.Contains("/AvailablePhoneNumbers/US/Local.json"))
-                   ), Times.Once);
-
-            mockClient.Verify(c => c.Request(It.Is<Request>(
-                   r => Equals(r.Method, HttpMethod.Post) &&
-                   r.ConstructUrl().AbsoluteUri.Contains("/IncomingPhoneNumbers.json"))
-                   ), Times.Once);
+            // Then
+            mockClient.Verify(readAvailablePhoneNumbersSetup, Times.Once);
+            mockClient.Verify(createIncomingPhoneNumberSetup, Times.Once);
         }
-
-       
     }
 }
