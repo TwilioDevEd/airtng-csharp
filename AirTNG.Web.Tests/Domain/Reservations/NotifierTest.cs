@@ -8,6 +8,7 @@ using Twilio;
 using Twilio.Clients;
 using Twilio.Http;
 using System;
+using System.Threading.Tasks;
 
 namespace AirTNG.Web.Tests.Domain.Reservations
 {
@@ -48,7 +49,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
             });
 
             // Then
-            mockClient.Verify(c => c.Request(It.IsAny<Request>()), Times.Once);
+            mockClient.Verify(c => c.RequestAsync(It.IsAny<Request>()), Times.Once);
         }
 
         private static Notifier BuildNotifier(Mock<ITwilioRestClient> mockClient, Mock<IReservationsRepository> mockRepository)
@@ -72,11 +73,11 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         {
             var mockClient = new Mock<ITwilioRestClient>();
             mockClient
-                .Setup(c => c.Request(It.Is<Request>(
+                .Setup(c => c.RequestAsync(It.Is<Request>(
                     r => r.Method == HttpMethod.Post &&
                     r.ConstructUrl().AbsoluteUri.Contains("Messages.json"))
                     ))
-                .Returns(new Response(System.Net.HttpStatusCode.OK, ""));
+                .Returns(Task.FromResult(new Response(System.Net.HttpStatusCode.OK, "")));
             return mockClient;
         }
     }
