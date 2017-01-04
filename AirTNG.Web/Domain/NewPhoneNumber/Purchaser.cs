@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AirTNG.Web.Domain.Twilio;
 using Twilio;
 using Twilio.Clients;
@@ -11,7 +12,7 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
 {
     public interface IPurchaser
     {
-        PhoneNumber Purchase(string areaCode);
+        Task<PhoneNumber> PurchaseAsync(string areaCode);
     }
 
     public class Purchaser : IPurchaser
@@ -32,18 +33,19 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
         /// </summary>
         /// <param name="areaCode">The area code</param>
         /// <returns>The purchased phone number</returns>
-        public PhoneNumber Purchase(string areaCode)
+        public async Task<PhoneNumber> PurchaseAsync(string areaCode)
         {
-            var phoneNumber = SearchForFirstAvailablePhoneNumber(areaCode);
-            return IncomingPhoneNumberResource
-                .Create(phoneNumber: phoneNumber,
-                        voiceApplicationSid: Credentials.ApplicationSID)
-                .PhoneNumber;
+            var phoneNumber = await SearchForFirstAvailablePhoneNumber(areaCode);
+            var incomingPhoneNumber = await IncomingPhoneNumberResource
+                .CreateAsync(phoneNumber: phoneNumber,
+                             voiceApplicationSid: Credentials.ApplicationSID);
+                
+            return incomingPhoneNumber.PhoneNumber;
         }
 
-        private PhoneNumber SearchForFirstAvailablePhoneNumber(string areaCode)
+        private async Task<PhoneNumber> SearchForFirstAvailablePhoneNumber(string areaCode)
         {
-            var localPhoneNumber = LocalResource.Read(
+            var localPhoneNumber = await LocalResource.ReadAsync(
                 "US",
                 areaCode: Int32.Parse(areaCode),
                 voiceEnabled: true,

@@ -34,7 +34,12 @@ namespace AirTNG.Web.Domain.Twilio
     {
         public static string Twilio
         {
-            get { return WebConfigurationManager.AppSettings["TwilioPhoneNumber"]; }
+            get
+            {
+                return WebConfigurationManager.AppSettings["TwilioPhoneNumber"] ??
+                       "+123456";
+            }
+
         }
     }
 }

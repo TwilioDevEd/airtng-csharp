@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.XPath;
 using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.NewPhoneNumber;
@@ -92,7 +93,9 @@ namespace AirTNG.Web.Tests.Controllers
                 .ReturnsAsync(host);
             var stubNotifier = Mock.Of<INotifier>();
             var mockPurchaser = new Mock<IPurchaser>();
-            mockPurchaser.Setup(p => p.Purchase(It.IsAny<string>())).Returns(new PhoneNumber("123"));
+            mockPurchaser
+                .Setup(p => p.PurchaseAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new PhoneNumber("123")));
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository,

@@ -110,7 +110,7 @@ namespace AirTNG.Web.Controllers
                 var smsRequest = body;
                 if (IsSmsRequestAccepted(smsRequest))
                 {
-                    var purchasedPhoneNumber = _phoneNumberPurchaser.Purchase(host.AreaCode);
+                    var purchasedPhoneNumber = await _phoneNumberPurchaser.PurchaseAsync(host.AreaCode);
 
                     reservation.Status = ReservationStatus.Confirmed;
                     reservation.AnonymousPhoneNumber = purchasedPhoneNumber.ToString();
