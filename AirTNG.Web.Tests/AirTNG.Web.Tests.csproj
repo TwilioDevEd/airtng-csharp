@@ -104,12 +104,6 @@
       <HintPath>..\packages\Twilio.5.0.0-rca2\lib\net45\Twilio.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Twilio.Api">
-      <HintPath>..\packages\Twilio.4.2.1\lib\3.5\Twilio.Api.dll</HintPath>
-    </Reference>
-    <Reference Include="Twilio.Mvc">
-      <HintPath>..\packages\Twilio.Mvc.3.1.15\lib\3.5\Twilio.Mvc.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -130,7 +124,6 @@
     <Compile Include="Controllers\ReservationsControllerTest.cs" />
     <Compile Include="Controllers\VacationPropertiesControllerTest.cs" />
     <Compile Include="Domain\Reservations\NotifierTest.cs" />
-    <Compile Include="Extensions\TwiMLResultExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

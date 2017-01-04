@@ -16,8 +16,6 @@ namespace AirTNG.Web.Domain.NewPhoneNumber
 
     public class Purchaser : IPurchaser
     {
-        private readonly TwilioRestClient _client;
-
         public Purchaser()
         {
             TwilioClient.Init(Credentials.AccountSID, Credentials.AuthToken);
