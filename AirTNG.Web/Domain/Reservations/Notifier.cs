@@ -25,16 +25,14 @@ namespace AirTNG.Web.Domain.Reservations
         public Notifier() : this(            
             new ReservationsRepository()) { }
 
-        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient, string accountSid, string authToken)
+        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient) : this(repository)
         {
-            TwilioClient.Init(accountSid, authToken);
             TwilioClient.SetRestClient(restClient);
-            _repository = repository;
         }
 
         public Notifier(IReservationsRepository repository)
         {
-            TwilioClient.Init(Credentials.AccountSID, Credentials.AuthToken);
+            TwilioClient.Init(Credentials.AccountSid, Credentials.AuthToken);
             _repository = repository;
         }
 
