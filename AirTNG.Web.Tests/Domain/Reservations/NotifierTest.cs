@@ -55,9 +55,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         private static Notifier BuildNotifier(Mock<ITwilioRestClient> mockClient, Mock<IReservationsRepository> mockRepository)
         {
             return new Notifier(mockRepository.Object,
-                            mockClient.Object,
-                            "AccountSid",
-                            "AuthToken");
+                            mockClient.Object);
         }
 
         private static Mock<IReservationsRepository> SetupRepositoryMock(List<Reservation> reservations)
