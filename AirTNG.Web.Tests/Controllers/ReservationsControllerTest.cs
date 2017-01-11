@@ -4,7 +4,7 @@ using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using AirTNG.Web.Tests.Extensions;
+using FluentMvcTesting.Extensions;
 using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
