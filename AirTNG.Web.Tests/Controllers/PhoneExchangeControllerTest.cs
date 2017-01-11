@@ -41,7 +41,7 @@ namespace AirTNG.Web.Tests.Controllers
             var controller = new PhoneExchangeController(_mockRepository.Object);
             controller
                 .WithCallTo(c => c.InterconnectUsingSms(incommingPhoneNumber, "anonymous-phone-number", "message"))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     Assert.That(data.XPathSelectElement("Response/Message").Attribute("to").Value,
                         Is.EqualTo(outgoingPhoneNumber));
@@ -59,7 +59,7 @@ namespace AirTNG.Web.Tests.Controllers
             var controller = new PhoneExchangeController(_mockRepository.Object);
             controller
                 .WithCallTo(c => c.InterconnectUsingVoice(incommingPhoneNumber, "anonymous-phone-number"))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     Assert.That(data.XPathSelectElement("Response/Dial").Value,
                         Is.EqualTo(outgoingPhoneNumber));

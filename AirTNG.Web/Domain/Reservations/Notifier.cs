@@ -5,37 +5,40 @@ using System.Threading.Tasks;
 using AirTNG.Web.Domain.Twilio;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using Twilio;
 
 namespace AirTNG.Web.Domain.Reservations
 {
     public interface INotifier
     {
-        Task<Message> SendNotificationAsync(Reservation reservation);
+        Task SendNotificationAsync(Reservation reservation);
     }
 
     public class Notifier : INotifier
     {
-        private readonly TwilioRestClient _client;
         private readonly IReservationsRepository _repository;
+        private readonly ITwilioMessageSender _messageSender;
 
-        public Notifier() : this(
-            new TwilioRestClient(Credentials.AccountSID, Credentials.AuthToken),
-            new ReservationsRepository()) { }
+        public Notifier() : this(            
+            new ReservationsRepository(),
+            new TwilioMessageSender()) { }
 
-        public Notifier(TwilioRestClient client, IReservationsRepository repository)
+        public Notifier(IReservationsRepository repository, ITwilioMessageSender messageSender)
         {
-            _client = client;
             _repository = repository;
+            _messageSender = messageSender;
         }
 
-        public async Task<Message> SendNotificationAsync(Reservation reservation)
+        public async Task SendNotificationAsync(Reservation reservation)
         {
             var pendingReservations = await _repository.FindPendingReservationsAsync();
-            if (pendingReservations.Count() > 1) return null;
 
-            var notification = BuildNotification(reservation);
-            return _client.SendMessage(notification.From, notification.To, notification.Messsage);
+            if (pendingReservations.Count() <= 1)
+            {
+                var notification = BuildNotification(reservation);
+                await _messageSender.SendMessageAsync(notification.To,
+                                                      notification.From,
+                                                      notification.Messsage);
+            }
         }
 
         private static Notification BuildNotification(Reservation reservation)
