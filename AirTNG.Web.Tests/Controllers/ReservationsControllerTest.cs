@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.XPath;
 using AirTNG.Web.Controllers;
-using AirTNG.Web.Domain.PhoneNumber;
+using AirTNG.Web.Domain.NewPhoneNumber;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -11,7 +12,7 @@ using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using TestStack.FluentMVCTesting;
-using Twilio;
+using Twilio.Types;
 
 // ReSharper disable PossibleNullReferenceException
 
@@ -92,7 +93,9 @@ namespace AirTNG.Web.Tests.Controllers
                 .ReturnsAsync(host);
             var stubNotifier = Mock.Of<INotifier>();
             var mockPurchaser = new Mock<IPurchaser>();
-            mockPurchaser.Setup(p => p.Purchase(It.IsAny<string>())).Returns(new IncomingPhoneNumber());
+            mockPurchaser
+                .Setup(p => p.PurchaseAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult(new PhoneNumber("123")));
 
             var controller = new ReservationsController(
                 stubVacationPropertiesRepository,
@@ -102,7 +105,7 @@ namespace AirTNG.Web.Tests.Controllers
                 mockPurchaser.Object);
 
             controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     StringAssert.Contains(expectedMessage, data.XPathSelectElement("Response/Message").Value);
                 });
@@ -132,7 +135,7 @@ namespace AirTNG.Web.Tests.Controllers
                 stubPurchaser);
 
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
-                .ShouldReturnTwiMLResult(data =>
+                .ShouldReturnXmlResult(data =>
                 {
                     StringAssert.Contains("Sorry", data.XPathSelectElement("Response/Message").Value);
                 });
