@@ -14,7 +14,7 @@ namespace AirTNG.Web.Domain.Reservations
     {
         public TwilioMessageSender()
         {
-            TwilioClient.Init(Credentials.AccountSID, Credentials.AuthToken);
+            TwilioClient.Init(Credentials.AccountSid, Credentials.AuthToken);
         }
 
         public async Task SendMessageAsync(string to, string from, string body)
