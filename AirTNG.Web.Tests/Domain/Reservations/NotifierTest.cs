@@ -4,11 +4,6 @@ using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using Moq;
 using NUnit.Framework;
-using Twilio;
-using Twilio.Clients;
-using Twilio.Http;
-using System;
-using System.Threading.Tasks;
 
 namespace AirTNG.Web.Tests.Domain.Reservations
 {
@@ -18,18 +13,18 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         public async void WhenThereAreMoreThanOneReservations_ThenNoMessageIsSent()
         {
             // Given
-            var mockClient = new Mock<ITwilioRestClient>();
+            var mockMessageSender = new Mock<ITwilioMessageSender>();
             var mockRepository = SetupRepositoryMock(new List<Reservation>() {
                     new Reservation(),
                     new Reservation()
                 });
-            var notifier = BuildNotifier(mockClient, mockRepository);
+            var notifier = BuildNotifier(mockMessageSender, mockRepository);
 
             // When
             await notifier.SendNotificationAsync(new Reservation());
 
             // Then
-            mockClient.Verify(c => c.Request(It.IsAny<Request>()), Times.Never);
+            mockMessageSender.Verify(c => c.SendMessageAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
         }
 
         [Test]
@@ -37,9 +32,9 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         {
             // Given
             const string hostPhoneNumber = "host-phone-number";
-            var mockClient = SetupTwilioRestClientMock();
+            var mockMessageSender = new Mock<ITwilioMessageSender>();
             var mockRepository = SetupRepositoryMock(new List<Reservation>());
-            var notifier = BuildNotifier(mockClient, mockRepository);
+            var notifier = BuildNotifier(mockMessageSender, mockRepository);
 
             // When
             await notifier.SendNotificationAsync(new Reservation
@@ -49,10 +44,10 @@ namespace AirTNG.Web.Tests.Domain.Reservations
             });
 
             // Then
-            mockClient.Verify(c => c.RequestAsync(It.IsAny<Request>()), Times.Once);
+            mockMessageSender.Verify(c => c.SendMessageAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
         }
 
-        private static Notifier BuildNotifier(Mock<ITwilioRestClient> mockClient, Mock<IReservationsRepository> mockRepository)
+        private static Notifier BuildNotifier(Mock<ITwilioMessageSender> mockClient, Mock<IReservationsRepository> mockRepository)
         {
             return new Notifier(mockRepository.Object,
                             mockClient.Object);
@@ -65,18 +60,6 @@ namespace AirTNG.Web.Tests.Domain.Reservations
                 .Setup(r => r.FindPendingReservationsAsync())
                 .ReturnsAsync(reservations);
             return mockRepository;
-        }
-
-        private static Mock<ITwilioRestClient> SetupTwilioRestClientMock()
-        {
-            var mockClient = new Mock<ITwilioRestClient>();
-            mockClient
-                .Setup(c => c.RequestAsync(It.Is<Request>(
-                    r => r.Method == HttpMethod.Post &&
-                    r.ConstructUrl().AbsoluteUri.Contains("Messages.json"))
-                    ))
-                .Returns(Task.FromResult(new Response(System.Net.HttpStatusCode.OK, "")));
-            return mockClient;
         }
     }
 }

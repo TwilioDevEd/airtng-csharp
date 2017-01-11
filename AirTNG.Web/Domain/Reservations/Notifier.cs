@@ -5,46 +5,40 @@ using System.Threading.Tasks;
 using AirTNG.Web.Domain.Twilio;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.Types;
-using Twilio.Clients;
 
 namespace AirTNG.Web.Domain.Reservations
 {
     public interface INotifier
     {
-        Task<MessageResource> SendNotificationAsync(Reservation reservation);
+        Task SendNotificationAsync(Reservation reservation);
     }
 
     public class Notifier : INotifier
     {
         
         private readonly IReservationsRepository _repository;
+        private readonly ITwilioMessageSender _messageSender;
 
         public Notifier() : this(            
-            new ReservationsRepository()) { }
+            new ReservationsRepository(),
+            new TwilioMessageSender()) { }
 
-        public Notifier(IReservationsRepository repository, ITwilioRestClient restClient) : this(repository)
+        public Notifier(IReservationsRepository repository, ITwilioMessageSender messageSender)
         {
-            TwilioClient.SetRestClient(restClient);
-        }
-
-        public Notifier(IReservationsRepository repository)
-        {
-            TwilioClient.Init(Credentials.AccountSid, Credentials.AuthToken);
             _repository = repository;
+            _messageSender = messageSender;
         }
 
-        public async Task<MessageResource> SendNotificationAsync(Reservation reservation)
+        public async Task SendNotificationAsync(Reservation reservation)
         {
             var pendingReservations = await _repository.FindPendingReservationsAsync();
-            if (pendingReservations.Count() > 1) return null;
-
-            var notification = BuildNotification(reservation);
-            return await MessageResource.CreateAsync(notification.To, 
-                                                     from: notification.From, 
-                                                     body: notification.Messsage);
+            if (pendingReservations.Count() <= 1)
+            {
+                var notification = BuildNotification(reservation);
+                await _messageSender.SendMessageAsync(notification.To,
+                                                      notification.From,
+                                                      notification.Messsage);
+            }
         }
 
         private static Notification BuildNotification(Reservation reservation)
@@ -61,8 +55,8 @@ namespace AirTNG.Web.Domain.Reservations
 
             return new Notification
             {
-                From = new PhoneNumber(PhoneNumbers.Twilio),
-                To = new PhoneNumber(reservation.PhoneNumber),
+                From = PhoneNumbers.Twilio,
+                To = reservation.PhoneNumber,
                 Messsage = message.ToString()
             };
         }
