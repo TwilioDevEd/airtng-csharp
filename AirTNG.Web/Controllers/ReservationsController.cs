@@ -5,12 +5,13 @@ using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
 using AirTNG.Web.ViewModels;
+using Twilio.AspNet.Mvc;
 using Twilio.TwiML;
 
 namespace AirTNG.Web.Controllers
 {
     [Authorize]
-    public class ReservationsController : Controller
+    public class ReservationsController : TwilioController
     {
         private readonly IVacationPropertiesRepository _vacationPropertiesRepository;
         private readonly IReservationsRepository _reservationsRepository;
@@ -81,7 +82,7 @@ namespace AirTNG.Web.Controllers
         // POST Reservations/Handle
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Handle(string from, string body)
+        public async Task<TwiMLResult> Handle(string from, string body)
         {
             string smsResponse;
 
@@ -106,7 +107,7 @@ namespace AirTNG.Web.Controllers
                 smsResponse = "Sorry, it looks like you don't have any reservations to respond to.";
             }
             
-            return Content(Respond(smsResponse).ToString(), "text/xml");
+            return TwiML(Respond(smsResponse));
         }
 
         private static MessagingResponse Respond(string message)
