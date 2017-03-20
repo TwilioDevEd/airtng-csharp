@@ -4,7 +4,7 @@ using AirTNG.Web.Controllers;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using FluentMvcTesting.Extensions;
+using AirTNG.Web.Tests.Extensions;
 using AirTNG.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
@@ -93,7 +93,7 @@ namespace AirTNG.Web.Tests.Controllers
                 stubNotifier);
 
             controller.WithCallTo(c => c.Handle("from-number", smsRequestBody))
-                .ShouldReturnXmlResult(data =>
+                .ShouldReturnTwiMLResult(data =>
                 {
                     StringAssert.Contains(expectedMessage, data.XPathSelectElement("Response/Message").Value);
                 });
@@ -121,7 +121,7 @@ namespace AirTNG.Web.Tests.Controllers
                 stubNotifier);
 
             controller.WithCallTo(c => c.Handle("from-number", "yes"))
-                .ShouldReturnXmlResult(data =>
+                .ShouldReturnTwiMLResult(data =>
                 {
                     StringAssert.Contains("Sorry", data.XPathSelectElement("Response/Message").Value);
                 });

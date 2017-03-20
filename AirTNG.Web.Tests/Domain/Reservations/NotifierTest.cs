@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AirTNG.Web.Domain.Reservations;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
@@ -10,7 +11,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
     public class NotifierTest
     {
         [Test]
-        public async void WhenThereAreMoreThanOneReservations_ThenNoMessageIsSent()
+        public async Task WhenThereAreMoreThanOneReservations_ThenNoMessageIsSentAsync()
         {
             // Given
             var mockMessageSender = new Mock<ITwilioMessageSender>();
@@ -28,7 +29,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
         }
 
         [Test]
-        public async void WhenThereIsOneOrNoReservation_ThenAMessageIsSent()
+        public async Task WhenThereIsOneOrNoReservation_ThenAMessageIsSent()
         {
             // Given
             const string hostPhoneNumber = "host-phone-number";
@@ -49,8 +50,7 @@ namespace AirTNG.Web.Tests.Domain.Reservations
 
         private static Notifier BuildNotifier(Mock<ITwilioMessageSender> mockClient, Mock<IReservationsRepository> mockRepository)
         {
-            return new Notifier(mockRepository.Object,
-                            mockClient.Object);
+            return new Notifier(mockRepository.Object, mockClient.Object);
         }
 
         private static Mock<IReservationsRepository> SetupRepositoryMock(List<Reservation> reservations)
