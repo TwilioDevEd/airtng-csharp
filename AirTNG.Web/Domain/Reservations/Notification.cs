@@ -1,4 +1,6 @@
-﻿namespace AirTNG.Web.Domain.Reservations
+﻿using Twilio.Types;
+
+namespace AirTNG.Web.Domain.Reservations
 {
     public class Notification
     {
