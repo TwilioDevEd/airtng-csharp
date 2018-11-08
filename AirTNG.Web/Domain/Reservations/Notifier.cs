@@ -5,37 +5,37 @@ using System.Threading.Tasks;
 using AirTNG.Web.Domain.Twilio;
 using AirTNG.Web.Models;
 using AirTNG.Web.Models.Repository;
-using Twilio;
 
 namespace AirTNG.Web.Domain.Reservations
 {
     public interface INotifier
     {
-        Task<Message> SendNotificationAsync(Reservation reservation);
+        Task SendNotificationAsync(Reservation reservation);
     }
 
     public class Notifier : INotifier
     {
-        private readonly TwilioRestClient _client;
+        private readonly ITwilioMessageSender _client;
         private readonly IReservationsRepository _repository;
 
         public Notifier() : this(
-            new TwilioRestClient(Credentials.AccountSID, Credentials.AuthToken),
+            new TwilioMessageSender(),
             new ReservationsRepository()) { }
 
-        public Notifier(TwilioRestClient client, IReservationsRepository repository)
+        public Notifier(ITwilioMessageSender client, IReservationsRepository repository)
         {
             _client = client;
             _repository = repository;
         }
 
-        public async Task<Message> SendNotificationAsync(Reservation reservation)
+        public async Task SendNotificationAsync(Reservation reservation)
         {
             var pendingReservations = await _repository.FindPendingReservationsAsync();
-            if (pendingReservations.Count() > 1) return null;
-
-            var notification = BuildNotification(reservation);
-            return _client.SendMessage(notification.From, notification.To, notification.Messsage);
+            if (pendingReservations.Count() < 2)
+            {
+                var notification = BuildNotification(reservation);
+                await _client.SendMessageAsync(notification.To, notification.From, notification.Messsage);
+            }
         }
 
         private static Notification BuildNotification(Reservation reservation)
