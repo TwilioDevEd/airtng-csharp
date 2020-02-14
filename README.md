@@ -42,6 +42,7 @@ Learn how to automate your workflow using Twilio's REST API and Twilio SMS. This
 3. Create a new file `AirTNG.Web/Local.config` and update the content.
 
    ```
+   <?xml version="1.0" encoding="utf-8"?>
    <appSettings>
      <add key="TwilioAccountSid" value="Your Twilio Account SID" />
      <add key="TwilioAuthToken" value="Your Twilio Auth Token" />
