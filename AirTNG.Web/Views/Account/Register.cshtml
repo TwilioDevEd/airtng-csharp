@@ -28,6 +28,7 @@
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password)
+                    @Html.Label("PasswordRequirements", "that is atleast six digits long and includes one non letter or digit character.")
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger"})
                 </div>
